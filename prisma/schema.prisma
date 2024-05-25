@@ -8,14 +8,19 @@ generator client {
 }
 
 model User {
-  id    String @id @default(cuid())
+  id    String @id @default(uuid())
   email String @unique
+  name  String
+  role  Role   @default(USER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
 
   password Password?
   notes    Note[]
+  checks   Check[]
+  todos    Todo[]
 }
 
 model Password {
@@ -35,4 +40,83 @@ model Note {
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
+}
+
+model Check {
+  id      String   @id @default(uuid())
+  status  Status   @default(UNKNOWN)
+  value   Float?
+  text    String?
+  comment String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
+  todo   Todo   @relation(fields: [todoId], references: [id])
+  todoId String
+
+  user   User   @relation(fields: [userId], references: [id]) 
+  userId String
+}
+
+model Todo {
+  id String @id @default(uuid())
+
+  remark      String
+  title       String
+  definition  String?
+  method      String?
+  location    String?
+  criteria    String?
+  record      String?
+  comments    String?
+  
+  userId      String
+  referenceId String
+  articleId   String
+  periodId    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
+  checks Check[]
+
+  user      User        @relation(fields: [userId], references: [id])
+  article   Article     @relation(fields: [articleId], references: [id])
+  reference Reference   @relation(fields: [referenceId], references: [id])
+  period    Periodicity @relation(fields: [periodId], references: [id])
+}
+
+model Article {
+  id   String    @id @default(uuid())
+  name String
+
+  todos Todo[]
+}
+
+model Reference {
+  id     String     @id @default(uuid())
+  name   String
+  active Boolean @default(true)
+  todos  Todo[]
+}
+
+model Periodicity {
+  id    String    @id @default(uuid())
+  name  String
+  todos Todo[]
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum Status {
+  UNKNOWN
+  CHECKED
+  SUCCESS
+  FAIL
 }
