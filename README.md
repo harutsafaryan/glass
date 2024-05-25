@@ -241,12 +241,12 @@ The following secret was added to glass-e317:
 
   Postgres cluster glass-e317-staging-db created
   Username:    postgres
-  Password:    915JfoWJGkJVYGz
+  Password:    MBSRw1L99TjsHW8
   Hostname:    glass-e317-staging-db.internal
-  Flycast:     fdaa:9:14c0:0:1::1b
+  Flycast:     fdaa:9:14c0:0:1::1d
   Proxy port:  5432
   Postgres port:  5433
-  Connection string: postgres://postgres:915JfoWJGkJVYGz@glass-e317-staging-db.flycast:5432
+  Connection string: postgres://postgres:MBSRw1L99TjsHW8@glass-e317-staging-db.flycast:5432
 
 Save your credentials in a secure place -- you won't be able to see them again!
 
@@ -261,4 +261,4 @@ Creating user
 
 Postgres cluster glass-e317-staging-db is now attached to glass-e317-staging
 The following secret was added to glass-e317-staging:
-  DATABASE_URL=postgres://glass_e317_staging:ef5zcvOnmq2hnuP@glass-e317-staging-db.flycast:5432/glass_e317_staging?sslmode=disable
+  DATABASE_URL=postgres://glass_e317_staging:83ZtmpSS3dTM7iq@glass-e317-staging-db.flycast:5432/glass_e317_staging?sslmode=disable
