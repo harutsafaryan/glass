@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
+
 import { getTodos } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
@@ -9,7 +10,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
     return json({ todos });
 }
-
+ 
 
 export default function TodosPage() {
     const { todos } = useLoaderData<typeof loader>();
