@@ -10,7 +10,7 @@ interface TodoProps {
     }
 }
 
-export default function TodoItem({ todo }: TodoProps) {
+export default function TodoCard({ todo }: TodoProps) {
     return (
         <div className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow-lg border-2 border-sky-800">
             <div className="flex w-full items-center justify-between space-x-6 p-6">

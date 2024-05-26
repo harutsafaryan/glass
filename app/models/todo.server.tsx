@@ -15,7 +15,7 @@ export async function deleteTodo(id: Todo['id']) {
 }
 
 export async function getTodoById(id: Todo['id'])  {
-    return await prisma.todo.findFirst({ 
+    return await prisma.todo.findUnique({ 
         where: { id }, 
         select : {
             id: true,

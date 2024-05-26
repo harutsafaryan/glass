@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 
-import TodoItem from "~/components/TodoItem";
+import TodoItem from "~/components/TodoCard";
 import { getTodos } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
@@ -25,7 +25,7 @@ export default function TodosPage() {
             </div>
             <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                 {todos.map((todo) => (
-                    <Link to={`../todo/details/${todo.id}`} key={todo.id}>
+                    <Link to={`../todo/${todo.id}`} key={todo.id}>
                         <TodoItem todo={todo}/>
                     </Link>
                 ))}
