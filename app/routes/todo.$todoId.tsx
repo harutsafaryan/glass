@@ -5,6 +5,7 @@ import { useRef } from "react";
 import invariant from "tiny-invariant";
 
 import TodoInfo from "~/components/TodoInfo";
+import Accordion from "~/components/Accordion";
 import { createCheck } from "~/models/checks.server";
 import { getTodoById } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
@@ -21,9 +22,9 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     return json({ todo });
 }
 
-export async function action({request} : ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
     const formData = await request.formData();
-    
+
     const commentValue = formData.get('comment') as string;
     const textValue = formData.get('text') as string;
     const floatValue = formData.get('value') as string;
@@ -56,32 +57,30 @@ export default function TodoInfoPage() {
     return (
         <div>
             <TodoInfo todo={todo} />
+            <hr className="my-4" />
+
+            <Accordion>
+    
+       
             <Form method="post">
                 <input type="hidden" name="todoId" value={todo?.id}></input>
 
-                <label htmlFor="status" className="flex w-full flex-col gap-1">
-                    <span>Status: </span>
-                    <fieldset className="mt-4">
-                        <legend className="sr-only">Notification method</legend>
-                        <div className="space-y-4 sm:flex sm:items-center sm:space-x-5 sm:space-y-0">
-                            {statuses.map((status, index) => (
-                                <div key={index} className="flex items-center">
-                                    <input
-                                        id={index.toString()}
-                                        name="status"
+                <div>
+                    <label htmlFor="status" className="block text-sm font-medium leading-6 text-gray-900">
+                        <span>Status</span>
+                        <select name="status">
+                            {
+                                statuses.map((status, index) => (
+                                    <option
+                                        key={index}
                                         value={status}
-                                        type="radio"
-                                        defaultChecked={index.toString() === '0'}
-                                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                                    />
-                                    <label htmlFor={index.toString()} className="ml-3 block text-sm font-medium leading-6 text-gray-900">
-                                        {status}
-                                    </label>
-                                </div>
-                            ))}
-                        </div>
-                    </fieldset>
-                </label>
+                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-96 sm:text-sm sm:leading-6"
+                                    >{status}</option>
+                                ))
+                            }
+                        </select>
+                    </label>
+                </div>
 
                 <div>
                     <label htmlFor="value" className="block text-sm font-medium leading-6 text-gray-900">
@@ -107,7 +106,7 @@ export default function TodoInfoPage() {
                     </label>
                 </div>
 
-                <label className="flex w-full flex-col gap-1">
+                <label htmlFor="comment" className="block text-sm font-medium leading-6 text-gray-900">
                     <span>Comment </span>
                     <textarea
                         ref={commentRef}
@@ -130,6 +129,8 @@ export default function TodoInfoPage() {
                     </button>
                 </div>
             </Form>
+            </Accordion>
+
             <div className="mt-4">
                 {isHistoryView
                     ? <button onClick={() => navigate(-1)} className="p-1 border-2 rounded border-sky-500 hover:bg-sky-300">hide history</button>

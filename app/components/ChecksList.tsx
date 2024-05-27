@@ -56,7 +56,7 @@ export default function CheckList({ checks }: CheckProp) {
                                 <tbody className="divide-y divide-gray-200 bg-white">
                                     {checks.map((check) => (
                                         <tr key={check.id}
-                                            onClick={() => navigate(`${check.id}`)}
+                                            onClick={() => navigate(`/check/${check.id}`)}
                                             className={classNames(`${check.status === 'SUCCESS' ? 'bg-green-200' : check.status === 'FAIL' ? 'bg-rose-200' : null}`,
                                                 'text-gray-900 hover:text-red-600'
                                             )}

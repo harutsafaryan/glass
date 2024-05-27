@@ -4,8 +4,12 @@ import { prisma } from "~/db.server";
 
 export async function getTodos() {
     return await prisma.todo.findMany({
+        where : {
+            active : true
+        },
         include : {
-            reference : true
+            reference : true,
+            period : true
         }
     })
 }

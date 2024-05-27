@@ -8,10 +8,10 @@ generator client {
 }
 
 model User {
-  id    String  @id @default(uuid())
-  email String  @unique
+  id    String @id @default(uuid())
+  email String @unique
   name  String
-  role  Role    @default(USER)
+  role  Role   @default(USER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -97,15 +97,16 @@ model Article {
 }
 
 model Reference {
-  id     String  @id @default(uuid())
+  id     String   @id @default(uuid())
   name   String
-  active Boolean @default(true)
+  active Boolean  @default(true)
   todos  Todo[]
 }
 
 model Periodicity {
   id    String @id @default(uuid())
   name  String
+  date   DateTime?
   todos Todo[]
 }
 

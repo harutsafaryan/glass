@@ -7,6 +7,9 @@ interface TodoProps {
         reference: {
             name: string;
         }
+        period : {
+            name : string
+        }
     }
 }
 
@@ -24,7 +27,7 @@ export default function TodoCard({ todo }: TodoProps) {
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.definition}</p>
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.location}</p>
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.criteria}</p>
-
+                    <p>{todo.period.name}</p>
                 </div>
             </div>
         </div>
