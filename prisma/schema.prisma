@@ -8,9 +8,10 @@ generator client {
 }
 
 model User {
-  id    String @id @default(uuid())
-  email String @unique
-  role  Role   @default(USER)
+  id    String  @id @default(uuid())
+  email String  @unique
+  name  String
+  role  Role    @default(USER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -42,8 +43,8 @@ model Note {
 }
 
 model Check {
-  id      String   @id @default(uuid())
-  status  Status   @default(UNKNOWN)
+  id      String  @id @default(uuid())
+  status  Status  @default(UNKNOWN)
   value   Float?
   text    String?
   comment String?
@@ -55,22 +56,22 @@ model Check {
   todo   Todo   @relation(fields: [todoId], references: [id])
   todoId String
 
-  user   User   @relation(fields: [userId], references: [id]) 
+  user   User   @relation(fields: [userId], references: [id])
   userId String
 }
 
 model Todo {
   id String @id @default(uuid())
 
-  remark      String
-  title       String
-  definition  String?
-  method      String?
-  location    String?
-  criteria    String?
-  record      String?
-  comments    String?
-  
+  remark     String
+  title      String
+  definition String?
+  method     String?
+  location   String?
+  criteria   String?
+  record     String?
+  comments   String?
+
   userId      String
   referenceId String
   articleId   String
@@ -89,21 +90,21 @@ model Todo {
 }
 
 model Article {
-  id   String    @id @default(uuid())
+  id   String @id @default(uuid())
   name String
 
   todos Todo[]
 }
 
 model Reference {
-  id     String     @id @default(uuid())
+  id     String  @id @default(uuid())
   name   String
   active Boolean @default(true)
   todos  Todo[]
 }
 
 model Periodicity {
-  id    String    @id @default(uuid())
+  id    String @id @default(uuid())
   name  String
   todos Todo[]
 }
