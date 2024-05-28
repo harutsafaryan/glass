@@ -1,6 +1,11 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
-export default function Accordion({children, title} : any) {
+interface Props {
+    children : ReactNode;
+    title : string
+}
+
+export default function Accordion({children, title} : Props) {
     const [accordionOpen, setAccordionOpen] = React.useState(false);
 
     return (
