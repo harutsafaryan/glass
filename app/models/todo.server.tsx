@@ -9,7 +9,7 @@ export async function getTodos() {
         },
         include : {
             reference : true,
-            period : true
+            periods : true
         }
     })
 }
@@ -42,7 +42,7 @@ export async function getTodoById(id: Todo['id'])  {
                 select : {
                     name : true,
                 }
-            }
+            },
         }
     })
 }

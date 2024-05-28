@@ -7,9 +7,12 @@ interface TodoProps {
         reference: {
             name: string;
         }
-        period : {
-            name : string
-        }
+        periods: {
+            id: string,
+            todoId: string,
+            period: string | null,
+            date: string | null
+        }[]
     }
 }
 
@@ -27,9 +30,25 @@ export default function TodoCard({ todo }: TodoProps) {
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.definition}</p>
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.location}</p>
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.criteria}</p>
-                    <p>{todo.period.name}</p>
+                    <div className="flex space-x-2 mt-2">
+                        <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                            {getLastCheck({ todo })}
+                        </span>
+                        <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+                            Badge
+                        </span>
+                        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                            Badge
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
     )
+}
+function getLastCheck({ todo }: TodoProps) {
+    if (todo?.periods[0]?.date)
+        return todo?.periods[0]?.date
+    else
+        return null;
 }

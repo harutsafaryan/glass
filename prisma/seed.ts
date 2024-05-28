@@ -74,17 +74,6 @@ async function seed() {
     ]
   })
 
-  await prisma.periodicity.createMany({
-    data: [
-      { id: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a', name: "unknown" },
-      { id: '89e86b81-489b-494d-a7f7-f21b036fc5cf', name: "hour" },
-      { id: 'deeceb42-b69d-4cd0-8604-24233875e74d', name: "day" },
-      { id: '29a298c5-8c9d-486d-8a97-3332e50f5139', name: "week" },
-      { id: 'f65cd8ca-3889-4773-a851-f8419a59ce66', name: "month" },
-      { id: 'e5acde36-2429-4bad-9cdc-f7980a059a8e', name: "year" }
-    ]
-  })
-
   await prisma.todo.createMany({
     data: [
       {
@@ -98,7 +87,6 @@ async function seed() {
         criteria: "Compliance with the order and good condition of packaging",
         record: "Recording and classification of conformity sheets (after content verification)",
         comments: "Conformity sheets signed or electronic document renamed and archived in a dedicated file",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -107,7 +95,6 @@ async function seed() {
         articleId: 'e1b163bd-4cbd-4739-a878-dc8f1827ec26',
         title: "Butyl deliveries not registered at CEKAL",
         definition: "Performance of the tests on butyl sealants specified in chapter 7",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -120,7 +107,6 @@ async function seed() {
         location: "Finished products",
         criteria: "No interruption",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -133,7 +119,6 @@ async function seed() {
         location: "Finished products",
         criteria: "Minimum height : 2.5 mm. For trimmed coating, min. contact zone between butyl and trimmed zone= 2.5mm",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -147,7 +132,6 @@ async function seed() {
         criteria: "Compliance with thresholds specified in pvi 012cr12",
         record: "Design note or nomograph",
         comments: "Thick glass-glaz. w/dim out of DTU-with colored glass- screenprinted-installed at high alt.- 2 sides exposed sealant-in structural glazing- point-fixed glaz. (see ch.6)",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -161,7 +145,6 @@ async function seed() {
         criteria: "Compliance with thresholds specified in pvi 013js01",
         record: "Design note or nomograph",
         comments: "Glazing - with colored glass - screenprinted (see ch. 6)",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -175,7 +158,6 @@ async function seed() {
         criteria: "No filament",
         record: "Recording",
         comments: "Defects submitted to judgment of MVB",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -189,7 +171,6 @@ async function seed() {
         criteria: "No bubbles or missing product",
         record: "Recording",
         comments: "Defects submitted to judgment of MVB",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -203,7 +184,6 @@ async function seed() {
         criteria: "No interruption in contact",
         record: "Recording",
         comments: "Defects submitted to judgment of MVB",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -217,7 +197,6 @@ async function seed() {
         criteria: "Compliance with the order and good condition of packaging",
         record: "Recording and classification of conformity sheets (after content verification)",
         comments: "Conformity sheets signed or electronic document renamed and archived in a dedicated nfile",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -231,7 +210,6 @@ async function seed() {
         criteria: "Compliance with the\norder, good condition\nof packaging, expiry\ndate",
         record: "Recording and\nclassification of\nconformity sheets\n(after content\nverification)",
         comments: "Conformity sheets signed or\nelectronic document renamed\nand archived in a dedicated\nfile",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -245,7 +223,6 @@ async function seed() {
         criteria: "Compliance with the order, good condition of packaging, expiry date",
         record: "Recording and classification of conformity sheets (after content verification)",
         comments: "Conformity sheets signed or electronic document renamed and archived in a dedicated file",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -258,7 +235,6 @@ async function seed() {
         location: "Receiving and/or manufacturing",
         criteria: "No adhesive breakage breakage at least 90% cohesive",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -270,7 +246,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Finished products",
         criteria: "No opening considered unacceptable",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -283,7 +258,6 @@ async function seed() {
         location: "Finished products",
         record: "Recording",
         comments: "Wait at least 10min after resealing the glazing",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -297,7 +271,6 @@ async function seed() {
         criteria: "According to the certification level (85 or 90 or 95%)",
         record: "Recording",
         comments: "See also Igr 104gz01-02-03",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -309,7 +282,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing and/or finished products",
         criteria: "No interruption",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -321,7 +293,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing and/or finished products",
         criteria: "No bubbles or imprint traces",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -333,7 +304,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing and/or finished products",
         criteria: "Correct centering",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -345,7 +315,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing and/or finished products",
         criteria: "No irregularities",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -357,7 +326,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing",
         criteria: "Conformity to supplier sheet or process",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -370,7 +338,6 @@ async function seed() {
         location: "Manufacturing",
         criteria: "Minimum 2.5 g/ml per surface",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -384,7 +351,6 @@ async function seed() {
         criteria: "Compliance with the order and good condition of packaging",
         record: "Recording and classification of conformity sheets (after content verification)",
         comments: "Conformity sheets signed or electronic document renamed and archived in a dedicated file",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -393,7 +359,6 @@ async function seed() {
         articleId: 'e1b163bd-4cbd-4739-a878-dc8f1827ec26',
         title: "Deliveries of spacers not registered at CEKAL",
         definition: "Performance of tests on spacers specified in chapter 7",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -405,7 +370,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Receiving and/or manufacturing",
         criteria: "Compliance with GTR marking rules and with authorizations",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -417,7 +381,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Receiving and/or manufacturing",
         criteria: "No visible anomalies",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -431,7 +394,6 @@ async function seed() {
         criteria: "No tightness defects",
         record: "Recording or conformity sheet including the control of this tightness",
         comments: "For spacers not registered or if this control doesn't appear on conformity certificate",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -443,7 +405,6 @@ async function seed() {
         method: "per delivery",
         location: "Receiving and/or manufacturing",
         criteria: "Presence of the holes and/or air flow or water flow",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -455,7 +416,6 @@ async function seed() {
         method: "per delivery",
         location: "Receiving and/or manufacturing",
         criteria: "Compliance with the order and good condition of packaging",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -468,7 +428,6 @@ async function seed() {
         location: "Receiving and/or manufacturing",
         criteria: "Absence of dust",
         comments: "Storage conditions to be monitored",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -480,7 +439,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Receiving and/or manufacturing",
         criteria: "Good hold of  corners keys in place",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -494,7 +452,6 @@ async function seed() {
         criteria: "Distinction of each spacer with improved thermal purpose",
         record: "Marking on the spacer (type, commercial reference)",
         comments: "If no marking on the spacer, a traceability system is required.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -507,7 +464,6 @@ async function seed() {
         location: "Manufacturing",
         criteria: "Prohibition to put on the floor. Absence of dust.",
         comments: "Compulsory degreasing if delivered Georgian bars are fixed on frames",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -519,7 +475,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing",
         criteria: "No major defects",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -532,7 +487,6 @@ async function seed() {
         location: "Manufacturing",
         criteria: "Compliance with the tolerances specified in the process",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -545,7 +499,6 @@ async function seed() {
         location: "Manufacturing",
         criteria: "Compliance with the tolerances specified in the process",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -559,7 +512,6 @@ async function seed() {
         criteria: "8 hours max.",
         record: "Justification expected if the 8 hours are exceeded or if RH > 60%",
         comments: "Expected justification: Successive weighing of the frame until obtaining water absorption of 1% max.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -571,7 +523,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing",
         criteria: "Good strength of corner keys",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -584,7 +535,6 @@ async function seed() {
         location: "Manufacturing",
         criteria: "Continuity of the butyl in the corners",
         comments: "Corners with corner keys",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -596,7 +546,6 @@ async function seed() {
         method: "2 profiles per delivery",
         location: "Receiving",
         criteria: "Compliance with the order (including the film reference if appropriate) and good condition of packaging",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -609,7 +558,6 @@ async function seed() {
         location: "Receiving",
         criteria: "Compliance with the order (Including the film ref.if appropriate,  + ref. and type of the spacer) and good condition of packaging",
         record: "Recording and classification of conformity sheets(after content verification) + correlation  delta T/initial water content",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -623,7 +571,6 @@ async function seed() {
         criteria: "Compliance with the order, good condition of packaging, expiry date",
         record: "Recording and classification of conformity sheets (after content verification)",
         comments: "Conformity sheets signed or electronic document renamed and archived in a dedicated file",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -632,7 +579,6 @@ async function seed() {
         articleId: 'e1b163bd-4cbd-4739-a878-dc8f1827ec26',
         title: "Deliveries of elastomer sealant not registered at CEKAL",
         definition: "Performance of tests on elastomer sealants specified in chapter 7",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -646,7 +592,6 @@ async function seed() {
         criteria: "No adhesive Adhesiveness of breakage",
         record: "Recording",
         comments: "Mixed specimen possible. For ex. at 1 day, then 3 or 7 days if necessary (see Igr 123ms02)",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -660,7 +605,6 @@ async function seed() {
         criteria: "No adhesive up to breakage",
         record: "Recording",
         comments: "Mixed specimens possible.\nFor ex. at 1 day, then 3 or 7\ndays if necessary (see Igr\n123ms02)",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -673,7 +617,6 @@ async function seed() {
         criteria: "Compliance with the\norder, good condition\nof packaging, batch\nNo., expiry date",
         record: "Recording and\nclassification of\nconformity sheets\n(after content\nverification)",
         comments: "Conformity sheets signed or\nelectronic document renamed\nand archived in a dedicated\nfile",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -685,7 +628,6 @@ async function seed() {
         method: "Per container",
         location: "Manufacturing",
         criteria: "No exceeding of the date",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -697,7 +639,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing and/or finished products",
         criteria: "No bubbles, air filaments, excess material, etc.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -711,7 +652,6 @@ async function seed() {
         criteria: "No adhesive breakage",
         record: "Recording",
         comments: "Mixed specimen possible. For ex.at 1 day, then 3 or 7 days if necessary. (See Igr 123ms02). Perform for each type of spacer.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -725,7 +665,6 @@ async function seed() {
         criteria: "No adhesive breakage",
         record: "Recording",
         comments: "Mixed specimen possible. For ex.at 1 day, then 3 or 7 days if necessary. (See Igr 123ms02). See also Igr 104el05.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -739,7 +678,6 @@ async function seed() {
         criteria: "No adhesive breakage",
         record: "Recording",
         comments: "Mixed specimen possible. For ex.at 1 day, then 3 or 7 days if necessary. (See Igr 123ms02). See also Igr 104el04.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -752,7 +690,6 @@ async function seed() {
         location: "Manufacturing",
         criteria: "Thresholds set by supplier",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -764,7 +701,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing",
         criteria: "No visible heterogeneity of color",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -778,7 +714,6 @@ async function seed() {
         criteria: "Thresholds set by supplier",
         record: "Recording",
         comments: "Weighing method or method recommended by machine manufacturer and sealant manufacturer",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -792,7 +727,6 @@ async function seed() {
         criteria: "Thresholds set by supplier",
         record: "Recording",
         comments: "For a new batch: perform at start of use, as an acceptance test",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -806,7 +740,6 @@ async function seed() {
         criteria: "No visible heterogeneity of color",
         record: "Recording",
         comments: "Keep specimens at least 1 month. Note the batch numbers.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -819,7 +752,6 @@ async function seed() {
         location: "Manufacturing",
         criteria: "According to indications in sealing procedure",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -833,7 +765,6 @@ async function seed() {
         criteria: "Recording the solvent reference",
         record: "Recording",
         comments: "If a solvent is used",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -847,7 +778,6 @@ async function seed() {
         criteria: "Thresholds set by supplier",
         record: "Recording",
         comments: "Weighing method or method recommended by machine manufacturer and sealant manufacturer",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -861,7 +791,6 @@ async function seed() {
         criteria: "No visible heterogeneity of color",
         record: "Recording",
         comments: "Note the batch numbers.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -875,7 +804,6 @@ async function seed() {
         criteria: "Cohesive breakage>=90% and breakage stress according to the pescription of the sealant supplier",
         record: "Recording of the type of rupture and of strength at breakage",
         comments: "\"H\" specimen in compliance with ETAG 002, tabl. 5 and fig. 6, peeling test according to fig. 19 and 20.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -889,7 +817,6 @@ async function seed() {
         criteria: "Cohesive breakage\n>=90% and breakage stress according to the pescription of the sealant supplier",
         record: "Recording of the type of rupture and of strength at breakage",
         comments: "\"H\" specimen in compliance with ETAG 002, tabl. 5 and fig. 6.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -903,7 +830,6 @@ async function seed() {
         criteria: "Cohesive breakage\n>=90% and breakage stress according to the pescription of the sealant supplier",
         record: "Recording of the type of rupture and of strength at breakage",
         comments: "\"H\" specimen in compliance with NF EN 1279-6, ann. D.3.1",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -917,7 +843,6 @@ async function seed() {
         criteria: "No visible heterogeneity of color",
         record: "Recording",
         comments: "Defects submitted to judgment of MVB",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -931,7 +856,6 @@ async function seed() {
         criteria: "No major empty spot on the edges",
         record: "Recording",
         comments: "Defects submitted to judgment of MVB",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -945,7 +869,6 @@ async function seed() {
         criteria: "No major outcrops or recesses",
         record: "Recording",
         comments: "Defects submitted to judgment of MVB",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -959,7 +882,6 @@ async function seed() {
         criteria: "No bubbles",
         record: "Recording",
         comments: "Defects submitted to judgment of MVB",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -971,7 +893,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Finished products",
         criteria: "No translparency",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -985,7 +906,6 @@ async function seed() {
         criteria: "Maximum 1mm",
         record: "Recording",
         comments: "Difference between the total nominal value and the measured value",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -998,7 +918,6 @@ async function seed() {
         location: "Finished products In the middle of the 2 sides with dedicated space",
         criteria: "Sufficient space as defined in technical sheet  n°57 SNFA/COPREC",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1012,7 +931,6 @@ async function seed() {
         criteria: "Compliance with thresholds specified in pvi 012cr12 and the related Avis Technique.",
         record: "Design note",
         comments: "Glazing with 2 sides exposed sealant-structural glazing - point-fixed glazing - with colored glass - screenprinted (see ch.6)",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1024,7 +942,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Finished product",
         criteria: "Presence of marking",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1037,7 +954,6 @@ async function seed() {
         location: "Finished product",
         criteria: "Presence of an indication\nSee pvi 014et01",
         comments: "Coatings that are slightly emissive, self-cleaning, etc.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1050,7 +966,6 @@ async function seed() {
         location: "Receiving",
         criteria: "Compliance with the order and good condition of packaging",
         comments: "Declaration of performance for CE marking",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1062,7 +977,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing and/or finished products",
         criteria: "NF EN 572",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1074,7 +988,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing and/or finished products",
         criteria: "NF EN 572",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1085,7 +998,6 @@ async function seed() {
         definition: "Visual",
         method: "Permanent instruction",
         location: "Manufacturing and/or finished products",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1099,7 +1011,6 @@ async function seed() {
         criteria: "Distinction of coated glasses and laminated glass types",
         record: "Marking or documentary system",
         comments: "To be able to find the batch number and the glass supplier",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1112,7 +1023,6 @@ async function seed() {
         location: "Manufacturing and/or finished products",
         criteria: "<1mm if thickn.<8mm, <2mm if thickn.>8mm",
         comments: "See Igr 055bs01",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1124,7 +1034,6 @@ async function seed() {
         method: "At each change of shift",
         location: "Manufacturing and/or finished products",
         criteria: "Minimum thickness of glass: 3mm and bevel thickn. <=half-thickn. of glass component",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1137,7 +1046,6 @@ async function seed() {
         location: "Manufacturing",
         criteria: "Regular removal of the layer in compliance with the procedure",
         record: "Recording if specified in the procedure",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1150,7 +1058,6 @@ async function seed() {
         location: "Manufacturing",
         criteria: "Height of margin specified",
         comments: "applies to sandblasting and acid etching, coated, screenprinted glazing",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1164,7 +1071,6 @@ async function seed() {
         criteria: "Conductivity <30 µS. cm-1  or specif.of the coated glass supplier or of DTA if inferior",
         record: "Recording",
         comments: "Absence of detergent",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1177,7 +1083,6 @@ async function seed() {
         location: "In the washing water supply tank",
         criteria: "Temperature ≥35°C",
         record: "Recording of the measured values",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1189,7 +1094,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing",
         criteria: "No deposits that could hinder adhesiveness of assembly products",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1201,7 +1105,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Manufacturing",
         criteria: "No residual drop of water",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1215,7 +1118,6 @@ async function seed() {
         criteria: "Prevailing standards",
         record: "Recording",
         comments: "Composition, dimensions",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1228,7 +1130,6 @@ async function seed() {
         location: "Finished products",
         criteria: "Prevailing standards",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1240,7 +1141,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "When ordered and/or during manufacture",
         criteria: "See Igr 011mq01",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1252,7 +1152,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "When ordered and/or during manufacture",
         criteria: "At min., the semester (s1 or s2) and yr. or refer to Igr 011mq01",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1264,7 +1163,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "When ordered and/or during manufacture",
         criteria: "Conformity with resp to authorizations and certificates\nSee Igr 011mq01",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1277,7 +1175,6 @@ async function seed() {
         location: "When ordered and/or during manufacture",
         criteria: "Letter R added to the marking sequence See Igr 011mq01 and 02",
         comments: "R marking indicates \"renovation glazing\"",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1290,7 +1187,6 @@ async function seed() {
         location: "When ordered and/or during manufacture",
         criteria: "Letter B added to the marking sequence See Igr 011mq01",
         comments: "B marking indicates resistance to sunlight",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1303,7 +1199,6 @@ async function seed() {
         location: "When ordered and/or during manufacture",
         criteria: "Letter C added to the marking sequence See Igr 011mq01",
         comments: "C marking indicates resistance to sunlight and verification of stress",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1315,7 +1210,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Finished product",
         criteria: "Presence of an indication See Igr 011mq03",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1327,7 +1221,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Finished product",
         criteria: "Presence of an indication See Igr 011mq03",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1339,7 +1232,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Finished product",
         criteria: "Presence of an indication See Igr 011mq03",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1351,7 +1243,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Finished product",
         criteria: "Presence of an indication See Igr 011mq03",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1363,7 +1254,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "Finished products",
         criteria: "Storage under shelter",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1376,7 +1266,6 @@ async function seed() {
         location: "Finished products",
         criteria: "Storage at 90° on stand (between basis and back) to avoid shear stress",
         comments: "Flat storage if possible. Stand with an anti-adhesion system.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1390,7 +1279,6 @@ async function seed() {
         criteria: "T° initial dew point - ≤60°C and after 56 days at 55°C (0;+3) and 95%RH; Index I≤0,050 after 3 weeks at 58°C and 95% RH",
         record: "Recording",
         comments: "This control also applies to the manufacture of glazing installed for renovation. If 1 line  with 2 sealant coatings (automatic and manual) alternate the coating",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1404,7 +1292,6 @@ async function seed() {
         criteria: "Index I≤0,050 after 3 weeks at 58°C and 95% RH",
         record: "Recording",
         comments: "This control also applies to the manufacture of glazing installed for renovation. If 1 line  with 2 sealant coatings (automatic and manual) alternate the coating",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1418,7 +1305,6 @@ async function seed() {
         criteria: "Processes not covered by Avis Technique: see Pvi 012vr11; otherwise, as per.Avis Technique",
         record: "Recording",
         comments: "Avis Technique for  the processes it covers.",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1431,7 +1317,6 @@ async function seed() {
         location: "Finished products",
         criteria: "Difference in thickness chosen by the center or specified by the ATECs",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1445,7 +1330,6 @@ async function seed() {
         criteria: "Conformity to the Pvi 012vr11",
         record: "Recording",
         comments: "Applies to dimensional control during manufacturing",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1458,7 +1342,6 @@ async function seed() {
         location: "Finished products",
         criteria: "Conformity to the order",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1472,7 +1355,6 @@ async function seed() {
         criteria: "Conformity to the Pvi 014mq01",
         record: "Recording",
         comments: "If \"CE\" marking: conformity of this marking",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1486,7 +1368,6 @@ async function seed() {
         criteria: "3 mm, or as per Atec or DTA; for IG with hot-melt sealant. see Igr 104tf04; for specific IG (bonded, to be clamped) according to calculation",
         record: "Recording",
         comments: "With PMBuxx processes with PS, PU, Sb or Sm: occasionally 2.5 mm",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1499,7 +1380,6 @@ async function seed() {
         location: "Finished products",
         criteria: "No visible flatness defect at the time of manufacture",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1512,7 +1392,6 @@ async function seed() {
         location: "Finished products",
         criteria: "No defects or chipping",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1526,7 +1405,6 @@ async function seed() {
         criteria: "Compliance with the order and good condition of packaging",
         record: "Recording and classification of conformity sheets(after content verification) + correlation  delta T/initial water content",
         comments: "Conformity sheets signed or electronic document renamed and archived in a dedicated file",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1535,7 +1413,6 @@ async function seed() {
         articleId: 'e1b163bd-4cbd-4739-a878-dc8f1827ec26',
         title: "Deliveries of molecular sieves not registered at CEKAL",
         definition: "Performance of tests on desiccants specified in chapter 7",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1549,7 +1426,6 @@ async function seed() {
         criteria: "Complete filling of the sides specified in the process",
         record: "Recording",
         comments: "Vary the widths and references of spacers within the same family (PMA, PMI, PMG)\nSee also Igr 104ds02",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1563,7 +1439,6 @@ async function seed() {
         criteria: "Complete filling of the sides specified in the process",
         record: "Recording",
         comments: "Vary the widths and references of spacers within the same family (PSF)\nSee also Igr 104ds01",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1577,7 +1452,6 @@ async function seed() {
         criteria: "1,7% when a package is opened 3% when the package has alredy been opened",
         record: "Recording of initial, final temperature and the delta of the temperature",
         comments: "The procedure, the control equipment and the correlation curve\ndelta T/water content are provided by the desiccant manufacturer",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1588,7 +1462,6 @@ async function seed() {
         definition: "Visual",
         method: "Per delivery",
         location: "Receiving",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1602,7 +1475,6 @@ async function seed() {
         criteria: "Filling rate 85% (supervision thresholds set for corrective action). No value under 80%",
         record: "Recording of each measurement+average calculation every 1,4 and 12 weeks. Quarterly average=85% (-0;+15)",
         comments: "minimum of 3 vol./24hr if the total prod./ center > 100 v/day. Tandem press =2 filling machines",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1616,7 +1488,6 @@ async function seed() {
         criteria: "Filling rate 85% (supervision thresholds set for corrective action). No value under 80%",
         record: "Recording of each measurement+average calculation every 1,4\nand 12 weeks. Quarterly average=85% (-0;+15)",
         comments: "minimum of 3 vol./24hr if the total prod./ center > 100 v/day. Tandem press =2 filling machines\nIf manual filling: 1 vol./day",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1630,7 +1501,6 @@ async function seed() {
         criteria: "Filling rate 90% (supervision thresholds set for corrective action). No value under 85%",
         record: "Recording of each measurement+average calculation every 1,4 and 12 weeks. Quarterly average=90% (-0;+10)",
         comments: "minimum of 3 vol./24hr if the total prod./ center > 100 v/day. Tandem press=2 filling machines",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1644,7 +1514,6 @@ async function seed() {
         criteria: "Filling rate 95% (supervision thresholds set for corrective action).No value under 90%",
         record: "Recording of each measurement+average calculation every 1,4 and 12 weeks. Quarterly average=95% (-0;+5)",
         comments: "minimum of 3 vol./24hr if the total prod./ center > 100 v/day. Tandem press =2 filling machines",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1658,7 +1527,6 @@ async function seed() {
         criteria: "Accepted gap:\n- from 0 to 100g :\n≤ 0.2g\n- from 101 to 1000g :\n≤ 2g",
         record: "Recording",
         comments: "Scale’s accuracy : 10th  of gram.\nVerification performed as specified in the Igr 110em02",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1672,7 +1540,6 @@ async function seed() {
         criteria: "Accepted gap:\n≤ 0.1mm",
         record: "Recording",
         comments: "Verification to be performed as specified in the Igr 110em01",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1686,7 +1553,6 @@ async function seed() {
         criteria: "Accepted gap:\n≤ 0.5mm",
         record: "Recording",
         comments: "Verification to be performed as specified in the Igr 110em01",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1700,7 +1566,6 @@ async function seed() {
         criteria: "Accepted gap:  +/- 3 shore(A)",
         record: "Recording",
         comments: "Verification to be performed as specified in the Igr 110em03",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1714,7 +1579,6 @@ async function seed() {
         criteria: "Permissible deviation ≤ 2°C for electro. thermometers ≤ 3°C for liquid-filled or dial thermometers",
         record: "Recording",
         comments: "Verification to be performed as specified in the Igr 110em05",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1728,7 +1592,6 @@ async function seed() {
         criteria: "Equipment recalibrated each time started up",
         record: "/",
         comments: "Equipment to be re-controled in accordance with supplier recommendations",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1741,7 +1604,6 @@ async function seed() {
         location: "By the center",
         criteria: "Variation accepted without correction: <1% Variation accepted with correction: ≤ 4%",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1754,7 +1616,6 @@ async function seed() {
         location: "By the center",
         criteria: "Tape measures of class II",
         record: "Recording",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1768,7 +1629,6 @@ async function seed() {
         criteria: "Accepted gap ≤ 5 µS/cm",
         record: "Recording",
         comments: "Verification to be performed as specified in the Igr 110em04",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1782,7 +1642,6 @@ async function seed() {
         criteria: "/",
         record: "Recording",
         comments: "To be calibrated every year in the event of daily use",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1794,7 +1653,6 @@ async function seed() {
         method: "Permanent instruction",
         location: "By the center",
         criteria: "T=55°C (+3,-0)",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       },
       {
@@ -1804,7 +1662,6 @@ async function seed() {
         title: "Maintaining a claims register\n(insulating glazing)",
         method: "Permanent instruction",
         record: "Existence of a register",
-        periodId: '4e9f8ed3-c849-45eb-aea9-cc1d431b249a',
         userId: user.id
       }
     ]

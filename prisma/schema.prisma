@@ -75,18 +75,17 @@ model Todo {
   userId      String
   referenceId String
   articleId   String
-  periodId    String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   active    Boolean  @default(true)
 
-  checks Check[]
+  checks  Check[]
+  periods Periodicity[]
 
-  user      User        @relation(fields: [userId], references: [id])
-  article   Article     @relation(fields: [articleId], references: [id])
-  reference Reference   @relation(fields: [referenceId], references: [id])
-  period    Periodicity @relation(fields: [periodId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
+  article   Article   @relation(fields: [articleId], references: [id])
+  reference Reference @relation(fields: [referenceId], references: [id])
 }
 
 model Article {
@@ -97,17 +96,22 @@ model Article {
 }
 
 model Reference {
-  id     String   @id @default(uuid())
+  id     String  @id @default(uuid())
   name   String
-  active Boolean  @default(true)
+  active Boolean @default(true)
   todos  Todo[]
 }
 
 model Periodicity {
-  id    String @id @default(uuid())
-  name  String
+  id     String    @id @default(uuid())
+  period Period?    @default(UNKNOWN)
   date   DateTime?
-  todos Todo[]
+
+  todoId String
+  todo   Todo   @relation(fields: [todoId], references: [id])
+
+  @@unique([todoId, period])
+  @@unique([todoId, date])
 }
 
 enum Role {
@@ -120,4 +124,12 @@ enum Status {
   CHECKED
   SUCCESS
   FAIL
+}
+
+enum Period {
+  UNKNOWN
+  DAY
+  WEEK
+  MONTH
+  YEAR
 }
