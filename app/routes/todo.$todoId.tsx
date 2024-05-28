@@ -65,6 +65,7 @@ export async function action({ request }: ActionFunctionArgs) {
         }
         return null;
     }
+    return null;
 }
 
 export default function TodoInfoPage() {

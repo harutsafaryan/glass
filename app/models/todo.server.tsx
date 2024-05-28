@@ -9,7 +9,13 @@ export async function getTodos() {
         },
         include : {
             reference : true,
-            periods : true
+            periods : true,
+            checks : {
+                take : 1,
+                orderBy : {
+                    createdAt : "desc"
+                }
+            }
         }
     })
 }

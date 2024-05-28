@@ -101,6 +101,7 @@ export async function checkCount() {
     })
 }
 
+
 // export async function groupCheckByDate() {
 //     return await prisma.check.groupBy({
 //         by: ['createdAt'],

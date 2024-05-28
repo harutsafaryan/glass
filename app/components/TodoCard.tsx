@@ -1,11 +1,11 @@
 interface TodoProps {
     todo: {
-        title: string;
-        definition: string | null;
-        location: string | null;
-        criteria: string | null;
+        title: string,
+        definition: string | null,
+        location: string | null,
+        criteria: string | null,
         reference: {
-            name: string;
+            name: string,
         }
         periods: {
             id: string,
@@ -13,10 +13,23 @@ interface TodoProps {
             period: string | null,
             date: string | null
         }[]
+        checks : {
+            id : string,
+            createdAt : string
+        }[]
     }
 }
 
+interface Period {
+    id: string,
+    todoId: string,
+    period: string | null,
+    date: string | null
+}
+
 export default function TodoCard({ todo }: TodoProps) {
+    const daysCount = getDaysToNextCheck(todo.periods);
+
     return (
         <div className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow-lg border-2 border-sky-800">
             <div className="flex w-full items-center justify-between space-x-6 p-6">
@@ -32,13 +45,13 @@ export default function TodoCard({ todo }: TodoProps) {
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.criteria}</p>
                     <div className="flex space-x-2 mt-2">
                         <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                            {getLastCheck({ todo })}
+                            free
                         </span>
                         <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
-                            Badge
+                            {daysCount}
                         </span>
                         <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                            Badge
+                            {new Date(todo.checks[0]?.createdAt).toLocaleDateString()}
                         </span>
                     </div>
                 </div>
@@ -46,9 +59,20 @@ export default function TodoCard({ todo }: TodoProps) {
         </div>
     )
 }
-function getLastCheck({ todo }: TodoProps) {
-    if (todo?.periods[0]?.date)
-        return todo?.periods[0]?.date
-    else
+
+function getDaysToNextCheck(periods: Period[]) {
+    if (!periods)
+        return null
+
+    const scheduleDates = periods.filter(p => p.date).map(e => new Date(e.date ?? 0));
+    const nearestDate = scheduleDates.sort((a, b) => a.getTime() - b.getTime())?.[0];
+
+    if (nearestDate === undefined)
         return null;
+
+    const today = new Date().toDateString();
+    const t = new Date(today);
+    const deltaDays = Math.floor((nearestDate.getTime() - t.getTime()) / 86_400_000);
+
+    return deltaDays;
 }
