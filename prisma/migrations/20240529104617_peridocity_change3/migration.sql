@@ -5,7 +5,7 @@ CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER');
 CREATE TYPE "Status" AS ENUM ('UNKNOWN', 'CHECKED', 'SUCCESS', 'FAIL');
 
 -- CreateEnum
-CREATE TYPE "Period" AS ENUM ('UNKNOWN', 'DAY', 'WEEK', 'MONTH', 'YEAR');
+CREATE TYPE "Periodic" AS ENUM ('UNKNOWN', 'DAY', 'WEEK', 'MONTH', 'YEAR');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -71,6 +71,7 @@ CREATE TABLE "Todo" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
+    "periodic" "Periodic" DEFAULT 'UNKNOWN',
 
     CONSTRAINT "Todo_pkey" PRIMARY KEY ("id")
 );
@@ -93,13 +94,12 @@ CREATE TABLE "Reference" (
 );
 
 -- CreateTable
-CREATE TABLE "Periodicity" (
+CREATE TABLE "Schedule" (
     "id" TEXT NOT NULL,
-    "period" "Period" NOT NULL DEFAULT 'UNKNOWN',
-    "date" TIMESTAMP(3),
+    "date" TIMESTAMP(3) NOT NULL,
     "todoId" TEXT NOT NULL,
 
-    CONSTRAINT "Periodicity_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Schedule_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -130,4 +130,4 @@ ALTER TABLE "Todo" ADD CONSTRAINT "Todo_articleId_fkey" FOREIGN KEY ("articleId"
 ALTER TABLE "Todo" ADD CONSTRAINT "Todo_referenceId_fkey" FOREIGN KEY ("referenceId") REFERENCES "Reference"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Periodicity" ADD CONSTRAINT "Periodicity_todoId_fkey" FOREIGN KEY ("todoId") REFERENCES "Todo"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Schedule" ADD CONSTRAINT "Schedule_todoId_fkey" FOREIGN KEY ("todoId") REFERENCES "Todo"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

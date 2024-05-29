@@ -1,4 +1,4 @@
-import { Period, Status } from "@prisma/client";
+import { Status, Periodic } from "@prisma/client";
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { useRef } from "react";
@@ -8,14 +8,15 @@ import Accordion from "~/components/Accordion";
 import CheckList from "~/components/ChecksList";
 import TodoInfo from "~/components/TodoInfo";
 import { createCheck, getChecksByTodoId } from "~/models/checks.server";
-import { createPeriodicity, getPeriodsByTodoId } from "~/models/periodicity.server";
-import { getTodoById } from "~/models/todo.server";
+import { createSchedule, getScheduleByTodoId } from "~/models/schedule.server";
+import { getTodoById, updatePeriodByTodoId } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
 const statuses = Object.keys(Status);
 type StatusKeys = keyof typeof Status;
-const periodValues = Object.keys(Period);
-type PeriodKeys = keyof typeof Period;
+
+const periods = Object.keys(Periodic);
+type PeriodKeys = keyof typeof Periodic;
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     await requireUserId(request);
@@ -23,10 +24,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const todoId = params.todoId;
     const todo = await getTodoById(todoId);
     const checks = await getChecksByTodoId(todoId);
-    const periods = await getPeriodsByTodoId(todoId);
+    const schedules = await getScheduleByTodoId(todoId);
 
 
-    return json({ todo, checks, periods });
+    return json({ todo, checks, schedules });
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -52,24 +53,29 @@ export async function action({ request }: ActionFunctionArgs) {
     }
 
     if (_action === "set_date") {
-        console.log('dsdasdas')
         const date = values['date'] as string;
-        const period = values['period'] as PeriodKeys;
         const d = new Date(date);
         const todoId = values['todoId'] as string;
         try {
-            await createPeriodicity(todoId, period, d);
+            await createSchedule(todoId, d);
         }
         catch (error) {
             console.log("error: ", error)
         }
         return null;
     }
+
+    if (_action === "set_period") {
+        const period = values['period'] as PeriodKeys;
+        const todoId = values['todoId'] as string;
+        await updatePeriodByTodoId(todoId, period);
+
+    }
     return null;
 }
 
 export default function TodoInfoPage() {
-    const { todo, checks, periods } = useLoaderData<typeof loader>();
+    const { todo, checks, schedules } = useLoaderData<typeof loader>();
 
     const commentRef = useRef<HTMLTextAreaElement>(null);
     const valueRef = useRef<HTMLInputElement>(null);
@@ -153,20 +159,35 @@ export default function TodoInfoPage() {
                     </div>
                 </Form>
             </Accordion>
+         
             <Accordion title={`History - ${checks.length}`}>
                 <CheckList checks={checks} />
             </Accordion>
-            <Accordion title={`Schedule - ${periods.length}`}>
+
+            <Accordion title={`Periods - ${todo.periodic}`}>
                 <Form method="post">
                     <input type="hidden" name="todoId" value={todo?.id}></input>
-                    <label htmlFor="status" className="block text-sm font-medium leading-6 text-gray-900">
+                    <label htmlFor="period" className="block text-sm font-medium leading-6 text-gray-900">
                         <span>Period</span>
                         <select name="period">
-                            {periodValues.map((period, index) => (
-                                <option value={period} key={index}>{period}</option>
+                            {periods.map((period, index) => (
+                                <option
+                                    key={index}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-96 sm:text-sm sm:leading-6"
+                                    value={period}
+                                >{period}</option>
                             ))}
                         </select>
                     </label>
+                    <button
+                        className="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50"
+                        type="submit" name="_action" value="set_period">Save</button>
+                </Form>
+            </Accordion>
+
+            <Accordion title={`Schedule - ${schedules.length}`}>
+                <Form method="post">
+                    <input type="hidden" name="todoId" value={todo?.id}></input>
                     <label>
                         <span>date</span>
                         <input type="date" name="date"></input>

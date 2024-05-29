@@ -1,15 +1,26 @@
-import { Todo } from "@prisma/client";
+import { Periodic, Todo } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
 export async function getTodos() {
+    const today = new Date();
     return await prisma.todo.findMany({
         where : {
             active : true
         },
         include : {
             reference : true,
-            periods : true,
+            schedules : {
+                where : {
+                    date : {
+                        gte : today
+                    }
+                },
+                take : 1,
+                orderBy : {
+                    date : "asc"
+                }
+            },
             checks : {
                 take : 1,
                 orderBy : {
@@ -37,6 +48,7 @@ export async function getTodoById(id: Todo['id'])  {
             criteria : true,
             method : true,
             comments: true,
+            periodic : true,
             record : true,
             createdAt: true,
             article : {
@@ -49,6 +61,15 @@ export async function getTodoById(id: Todo['id'])  {
                     name : true,
                 }
             },
+        }
+    })
+}
+
+export async function updatePeriodByTodoId(id : Todo['id'], period : Periodic) {
+    return await prisma.todo.update({
+        where : {id},
+        data : {
+            periodic : period
         }
     })
 }
