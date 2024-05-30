@@ -6,7 +6,8 @@ export async function getTodos() {
     const today = new Date();
     return await prisma.todo.findMany({
         where : {
-            active : true
+            active : true,
+            // id : '6b1e2142-60b7-43d7-977d-b2abbd9cbe8c'
         },
         include : {
             reference : true,
