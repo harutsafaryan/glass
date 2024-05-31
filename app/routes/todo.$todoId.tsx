@@ -1,6 +1,6 @@
 import { Status, Periodic } from "@prisma/client";
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useRef } from "react";
 import invariant from "tiny-invariant";
 
@@ -75,6 +75,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function TodoInfoPage() {
+    const fetcher = useFetcher()
     const { todo, checks, schedules } = useLoaderData<typeof loader>();
 
     const commentRef = useRef<HTMLTextAreaElement>(null);
@@ -90,7 +91,7 @@ export default function TodoInfoPage() {
             <hr className="my-4" />
 
             <Accordion title="Add check">
-                <Form method="post">
+                <fetcher.Form method="post">
                     <input type="hidden" name="todoId" value={todo?.id}></input>
                     <div>
                         <label htmlFor="status" className="block text-sm font-medium leading-6 text-gray-900">
@@ -147,7 +148,7 @@ export default function TodoInfoPage() {
                         <button
                             name="_action"
                             value="new_check"
-                            className="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50"
+                            className="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50 active:bg-slate-500"
                         >
                             Save
                         </button>
@@ -157,18 +158,18 @@ export default function TodoInfoPage() {
                             Cancel
                         </button>
                     </div>
-                </Form>
+                </fetcher.Form>
             </Accordion>
-         
-            <Accordion title={`History - ${checks.length}`}>
+
+            <Accordion title={checks.length === 0 ? 'There is no any check' : checks.length === 1 ? 'There is only 1 check' : ` Thera are ${checks.length} checks`}>
                 <CheckList checks={checks} />
             </Accordion>
 
-            <Accordion title={`Periods - ${todo.periodic}`}>
-                <Form method="post">
+            <Accordion title={` Current checking period is set to ${todo.periodic}`}>
+                <fetcher.Form method="post">
                     <input type="hidden" name="todoId" value={todo?.id}></input>
                     <label htmlFor="period" className="block text-sm font-medium leading-6 text-gray-900">
-                        <span>Period</span>
+                        <span>new value </span>
                         <select name="period">
                             {periods.map((period, index) => (
                                 <option
@@ -180,22 +181,29 @@ export default function TodoInfoPage() {
                         </select>
                     </label>
                     <button
-                        className="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50"
+                        className="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50 active:bg-slate-500"
                         type="submit" name="_action" value="set_period">Save</button>
-                </Form>
+                </fetcher.Form>
             </Accordion>
 
-            <Accordion title={`Schedule - ${schedules.length}`}>
-                <Form method="post">
+            <Accordion title={schedules.length === 0 ? 'No any schedule' : `There are ${schedules.length} actual schedules, next one one ${new Date(schedules[0].date).toLocaleDateString()}`}>
+                <fetcher.Form method="post">
                     <input type="hidden" name="todoId" value={todo?.id}></input>
                     <label>
-                        <span>date</span>
+                        <span>Create new </span>
                         <input type="date" name="date"></input>
                     </label>
                     <button
-                        className="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50"
+                        className="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50 active:bg-slate-500"
                         type="submit" name="_action" value="set_date">Save</button>
-                </Form>
+                </fetcher.Form>
+                <ul>
+                    {
+                        schedules.map((schedule, index) => (
+                            <li key={index}>{new Date(schedule.date).toLocaleDateString()}</li>
+                        ))
+                    }
+                </ul>
             </Accordion>
         </div>
     )
