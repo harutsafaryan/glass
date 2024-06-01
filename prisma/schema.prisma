@@ -63,7 +63,7 @@ model Check {
 model Todo {
   id String @id @default(uuid())
 
-  remark     String
+  remark     String?
   title      String
   definition String?
   method     String?

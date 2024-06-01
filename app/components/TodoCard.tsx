@@ -34,8 +34,8 @@ export default function TodoCard({ todo }: TodoProps) {
     const scheduledDate = todo.schedules.length > 0 ? new Date(todo.schedules?.[0]?.date).toLocaleDateString() : null;
 
     return (
-        <div className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow-lg border-2 border-sky-800">
-            <div className="flex w-full items-center justify-between space-x-6 p-6">
+        <div className="relative col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow-lg border-2 border-sky-800">
+            <div className="flex w-full items-center justify-between space-x-3 p-3">
                 <div className="flex-1 truncate">
                     <div className="flex items-center space-x-3">
                         <h3 className="truncate text-sm font-medium text-gray-900">{todo.title}</h3>
@@ -47,13 +47,13 @@ export default function TodoCard({ todo }: TodoProps) {
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.location}</p>
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.criteria}</p>
                    
-                    <div className="flex space-x-2 mt-2">
+                    <div className="absolute -top-5 flex space-x-2 mt-2">
                         {
                             daysCountToNextCheck ? <span className={`inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 ${daysCountToNextCheck && daysCountToNextCheck <= 1 ? 'animate-bounce' : null }`}>
                             {daysCountToNextCheck}
                         </span> : null
                         }
-                        <span className="relative inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                        {/* <span className="relative inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                             {`next check on ${scheduledDate}`}
                             <p className="absolute -top-2 left-3">next check</p>
                         </span>
@@ -63,7 +63,7 @@ export default function TodoCard({ todo }: TodoProps) {
                         <span className="relative inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
                             <p className="absolute -top-2 left-0">period</p>
                             {periodicity}
-                        </span>
+                        </span> */}
                     </div>
                 </div>
             </div>
