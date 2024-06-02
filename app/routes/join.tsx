@@ -19,6 +19,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
+
   const email = formData.get("email");
   const name = formData.get("name");
   const password = formData.get("password");
@@ -26,7 +27,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   if (!validateEmail(email)) {
     return json(
-      { errors: { email: "Email is invalid", name: null, password: null } },
+      { errors: { email: "Enter correct email with @profal.am", name: null, password: null } },
       { status: 400 },
     );
   }
@@ -78,7 +79,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export const meta: MetaFunction = () => [{ title: "Sign Up" }];
 
-export default function Join() {
+export default function Signup() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? undefined;
   const actionData = useActionData<typeof action>();
@@ -118,8 +119,6 @@ export default function Join() {
                 name="email"
                 type="email"
                 autoComplete="email"
-                aria-invalid={actionData?.errors?.email ? true : undefined}
-                aria-describedby="email-error"
                 className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
               />
               {actionData?.errors?.email ? (
@@ -147,8 +146,6 @@ export default function Join() {
                 name="name"
                 type="text"
                 autoComplete="name"
-                aria-invalid={actionData?.errors?.name ? true : undefined}
-                aria-describedby="email-error"
                 className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
               />
               {actionData?.errors?.name ? (
@@ -173,8 +170,6 @@ export default function Join() {
                 name="password"
                 type="password"
                 autoComplete="new-password"
-                aria-invalid={actionData?.errors?.password ? true : undefined}
-                aria-describedby="password-error"
                 className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
               />
               {actionData?.errors?.password ? (

@@ -8,10 +8,10 @@ generator client {
 }
 
 model User {
-  id    String  @id @default(uuid())
-  email String  @unique
+  id    String @id @default(uuid())
+  email String @unique
   name  String
-  role  Role    @default(USER)
+  role  Role   @default(USER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -63,7 +63,7 @@ model Check {
 model Todo {
   id String @id @default(uuid())
 
-  remark     String
+  remark     String?
   title      String
   definition String?
   method     String?
@@ -75,38 +75,53 @@ model Todo {
   userId      String
   referenceId String
   articleId   String
-  periodId    String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   active    Boolean  @default(true)
 
-  checks Check[]
+  periodic Periodic @default(UNKNOWN)
 
-  user      User        @relation(fields: [userId], references: [id])
-  article   Article     @relation(fields: [articleId], references: [id])
-  reference Reference   @relation(fields: [referenceId], references: [id])
-  period    Periodicity @relation(fields: [periodId], references: [id])
+  checks    Check[]
+  schedules Schedule[]
+
+  user      User      @relation(fields: [userId], references: [id])
+  article   Article   @relation(fields: [articleId], references: [id])
+  reference Reference @relation(fields: [referenceId], references: [id])
 }
 
 model Article {
   id   String @id @default(uuid())
   name String
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
   todos Todo[]
 }
 
 model Reference {
-  id     String  @id @default(uuid())
-  name   String
-  active Boolean @default(true)
-  todos  Todo[]
+  id   String @id @default(uuid())
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
+  todos Todo[]
 }
 
-model Periodicity {
-  id    String @id @default(uuid())
-  name  String
-  todos Todo[]
+model Schedule {
+  id   String   @id @default(uuid())
+  date DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
+  todoId String
+  todo   Todo   @relation(fields: [todoId], references: [id])
 }
 
 enum Role {
@@ -119,4 +134,12 @@ enum Status {
   CHECKED
   SUCCESS
   FAIL
+}
+
+enum Periodic {
+  UNKNOWN
+  DAY
+  WEEK
+  MONTH
+  YEAR
 }

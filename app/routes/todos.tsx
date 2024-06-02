@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData, useNavigate } from "@remix-run/react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 import TodoItem from "~/components/TodoCard";
 import { getTodos } from "~/models/todo.server";
@@ -11,22 +12,43 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
     return json({ todos });
 }
- 
+
 
 export default function TodosPage() {
     const { todos } = useLoaderData<typeof loader>();
     const navigate = useNavigate();
+    console.log(1);
+
+    const [store, setStore] = useState('init');
+
+    useLayoutEffect(() => {
+        const data = window.localStorage.getItem("data");
+        if (data)
+            setStore(data);
+        console.log(2);
+    }, []);
+
+    useEffect(() => {
+        window.localStorage.setItem("data", store);
+        console.log(3);
+    }, [store]);
 
     return (
         <div>
+            <p>Filters</p>
+            <label> local store
+                <input className="border" value={store} onChange={e => setStore(e.target.value)} />
+            </label>
             <div className="flex space-x-3 mb-2 justify-center">
                 <p className="sm:text-lg text-center font-bold">{todos.length !== 0 ? "Todo list" : "Todo list is empty"}</p>
-                <button className="rounded-full bg-white px-2.5 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" onClick={() => navigate('/todoNew')}>new</button>
+                <button className="rounded-full bg-white px-2.5 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" onClick={() => navigate('/create-todo')}>new</button>
             </div>
+            <hr className="my-4" />
+
             <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                 {todos.map((todo) => (
                     <Link to={`../todo/${todo.id}`} key={todo.id}>
-                        <TodoItem todo={todo}/>
+                        <TodoItem todo={todo} />
                     </Link>
                 ))}
             </ul>
