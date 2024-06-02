@@ -91,7 +91,8 @@ export async function createTodo({
 
 }: Pick<Todo, 'remark' | 'title' | 'definition' | 'method' | 'location' | 'criteria' | 'record' | 'comments' | 'referenceId' | 'articleId' | 'periodic' | 'userId'>) {
 
-    // await delay(1000);
+    // await new Promise(resolve => setTimeout(resolve, 100))
+
     return await prisma.todo.create({
         data: {
             remark,
@@ -108,8 +109,4 @@ export async function createTodo({
             userId
         }
     })
-}
-
-function delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms))
 }

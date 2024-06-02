@@ -29,9 +29,9 @@ interface TodoProps {
 const TICKS_PER_DAY = 86_400_000
 export default function TodoCard({ todo }: TodoProps) {
     const daysCountToNextCheck = getDaysToNextCheck({ todo });
-    const periodicity = todo.periodic;
-    const lastCheckDate = todo.checks[0]?.createdAt ? new Date(todo.checks[0]?.createdAt).toLocaleDateString() : null;
-    const scheduledDate = todo.schedules.length > 0 ? new Date(todo.schedules?.[0]?.date).toLocaleDateString() : null;
+    // const periodicity = todo.periodic;
+    // const lastCheckDate = todo.checks[0]?.createdAt ? new Date(todo.checks[0]?.createdAt).toLocaleDateString() : null;
+    // const scheduledDate = todo.schedules.length > 0 ? new Date(todo.schedules?.[0]?.date).toLocaleDateString() : null;
 
     return (
         <div className="relative col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow-lg border-2 border-sky-800">
