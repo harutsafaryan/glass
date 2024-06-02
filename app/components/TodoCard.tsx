@@ -1,3 +1,5 @@
+import { classNames } from "~/utility/helper"
+
 interface TodoProps {
     todo: {
         title: string,
@@ -28,13 +30,18 @@ interface TodoProps {
 
 const TICKS_PER_DAY = 86_400_000
 export default function TodoCard({ todo }: TodoProps) {
+
     const daysCountToNextCheck = getDaysToNextCheck({ todo });
     // const periodicity = todo.periodic;
     // const lastCheckDate = todo.checks[0]?.createdAt ? new Date(todo.checks[0]?.createdAt).toLocaleDateString() : null;
     // const scheduledDate = todo.schedules.length > 0 ? new Date(todo.schedules?.[0]?.date).toLocaleDateString() : null;
 
+    const notifyColor = true;
+
     return (
-        <div className="relative col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow-lg border-2 border-sky-800">
+        <div className={
+            classNames('relative col-span-1 divide-y divide-gray-200 rounded-lg shadow-lg border-2 border-sky-800', 
+            `${notifyColor ? ' bg-yellow-100' : 'bg-white'}`)}>
             <div className="flex w-full items-center justify-between space-x-3 p-3">
                 <div className="flex-1 truncate">
                     <div className="flex items-center space-x-3">
