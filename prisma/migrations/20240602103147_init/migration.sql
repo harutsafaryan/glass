@@ -57,7 +57,7 @@ CREATE TABLE "Check" (
 -- CreateTable
 CREATE TABLE "Todo" (
     "id" TEXT NOT NULL,
-    "remark" TEXT NOT NULL,
+    "remark" TEXT,
     "title" TEXT NOT NULL,
     "definition" TEXT,
     "method" TEXT,
@@ -71,7 +71,7 @@ CREATE TABLE "Todo" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
-    "periodic" "Periodic" DEFAULT 'UNKNOWN',
+    "periodic" "Periodic" NOT NULL DEFAULT 'UNKNOWN',
 
     CONSTRAINT "Todo_pkey" PRIMARY KEY ("id")
 );
@@ -80,6 +80,9 @@ CREATE TABLE "Todo" (
 CREATE TABLE "Article" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "Article_pkey" PRIMARY KEY ("id")
 );
@@ -88,6 +91,8 @@ CREATE TABLE "Article" (
 CREATE TABLE "Reference" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "Reference_pkey" PRIMARY KEY ("id")
@@ -97,6 +102,9 @@ CREATE TABLE "Reference" (
 CREATE TABLE "Schedule" (
     "id" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
     "todoId" TEXT NOT NULL,
 
     CONSTRAINT "Schedule_pkey" PRIMARY KEY ("id")
