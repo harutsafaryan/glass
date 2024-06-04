@@ -10,8 +10,8 @@ import { getTodos } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    await requireUserId(request);
-    const todos = await getTodos();
+    const userId =  await requireUserId(request);
+    const todos = await getTodos(userId);
     const articles = await getArticles();
     const references = await getReferences();
 

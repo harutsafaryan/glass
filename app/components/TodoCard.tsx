@@ -1,3 +1,5 @@
+import { setInterval } from "node:timers/promises"
+import { useEffect, useState } from "react"
 import { classNames } from "~/utility/helper"
 
 interface TodoProps {
@@ -19,6 +21,9 @@ interface TodoProps {
             id: string,
             createdAt: string
         }[]//
+        notifications: {
+            name: string
+        }[]
     }
 }
 
@@ -36,12 +41,23 @@ export default function TodoCard({ todo }: TodoProps) {
     // const lastCheckDate = todo.checks[0]?.createdAt ? new Date(todo.checks[0]?.createdAt).toLocaleDateString() : null;
     // const scheduledDate = todo.schedules.length > 0 ? new Date(todo.schedules?.[0]?.date).toLocaleDateString() : null;
 
-    const notifyColor = true;
+    const notifyColor = todo.notifications.length > 0;
+    const [bgColor, setBgColor] = useState('bg-white')
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (notifyColor) {
+                if (bgColor === 'bg-white')
+                    setBgColor('transition duration-500 ease-in-out bg-red-200')
+                else
+                    setBgColor('bg-white')
+            }
+        }, 2000)
+    }, [bgColor, notifyColor])
 
     return (
         <div className={
-            classNames('relative col-span-1 divide-y divide-gray-200 rounded-lg shadow-lg border-2 border-sky-800', 
-            `${notifyColor ? ' bg-yellow-100' : 'bg-white'}`)}>
+            classNames('relative col-span-1 divide-y divide-gray-200 rounded-lg shadow-lg border-2 border-sky-800 ', bgColor)}>
             <div className="flex w-full items-center justify-between space-x-3 p-3">
                 <div className="flex-1 truncate">
                     <div className="flex items-center space-x-3">
@@ -53,12 +69,12 @@ export default function TodoCard({ todo }: TodoProps) {
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.definition}</p>
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.location}</p>
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.criteria}</p>
-                   
+
                     <div className="absolute -top-5 flex space-x-2 mt-2">
                         {
-                            daysCountToNextCheck ? <span className={`inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 ${daysCountToNextCheck && daysCountToNextCheck <= 1 ? 'animate-bounce' : null }`}>
-                            {daysCountToNextCheck}
-                        </span> : null
+                            daysCountToNextCheck ? <span className={`inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 ${daysCountToNextCheck && daysCountToNextCheck <= 1 ? 'animate-bounce' : null}`}>
+                                {daysCountToNextCheck}
+                            </span> : null
                         }
                         {/* <span className="relative inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                             {`next check on ${scheduledDate}`}

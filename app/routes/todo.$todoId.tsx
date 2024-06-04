@@ -8,6 +8,7 @@ import Accordion from "~/components/Accordion";
 import CheckList from "~/components/ChecksList";
 import TodoInfo from "~/components/TodoInfo";
 import { createCheck, getChecksByTodoId } from "~/models/checks.server";
+import { createNotification, getNotificationsByUser } from "~/models/notifications.server";
 import { createSchedule, getScheduleByTodoId } from "~/models/schedule.server";
 import { getTodoById, updatePeriodByTodoId } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
@@ -19,15 +20,16 @@ const periods = Object.keys(Periodic);
 type PeriodKeys = keyof typeof Periodic;
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-    await requireUserId(request);
+    const userId = await requireUserId(request);
     invariant(params.todoId, "todoId not found");
     const todoId = params.todoId;
     const todo = await getTodoById(todoId);
     const checks = await getChecksByTodoId(todoId);
     const schedules = await getScheduleByTodoId(todoId);
+    const notiications = await getNotificationsByUser(userId);
 
 
-    return json({ todo, checks, schedules });
+    return json({ todo, checks, schedules, notiications });
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -69,18 +71,27 @@ export async function action({ request }: ActionFunctionArgs) {
         const period = values['period'] as PeriodKeys;
         const todoId = values['todoId'] as string;
         await updatePeriodByTodoId(todoId, period);
-
     }
+
+    if (_action === "new_notification") {
+        const todoId = values['todoId'] as string;
+        const name = values['notification_name'] as string;
+        const userId = await requireUserId(request);
+
+        await createNotification({ userId, todoId, name })
+    }
+
     return null;
 }
 
 export default function TodoInfoPage() {
     const fetcher = useFetcher()
-    const { todo, checks, schedules } = useLoaderData<typeof loader>();
+    const { todo, checks, schedules, notiications } = useLoaderData<typeof loader>();
 
     const commentRef = useRef<HTMLTextAreaElement>(null);
     const valueRef = useRef<HTMLInputElement>(null);
     const textRef = useRef<HTMLInputElement>(null);
+    const notification_name = useRef<HTMLInputElement>(null);
 
     if (!todo)
         return null;
@@ -204,6 +215,19 @@ export default function TodoInfoPage() {
                         ))
                     }
                 </ul>
+            </Accordion>
+            <Accordion title={notiications.length === 0 ? 'No any notiication' : `There are ${notiications.length} actual notiication${notiications.length === 1 ? '' : 's'}`}>
+                <p>{notiications.length}</p>
+                <fetcher.Form method="post">
+                    <input type="hidden" name="todoId" value={todo?.id}></input>
+                    <label>
+                        <span>Create new </span>
+                        <input type="text" name="notification_name" ref={notification_name}></input>
+                    </label>
+                    <button
+                        className="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50 active:bg-slate-500"
+                        type="submit" name="_action" value="new_notification">Save</button>
+                </fetcher.Form>
             </Accordion>
         </div>
     )
