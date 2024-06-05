@@ -130,7 +130,6 @@ model Notification {
   id String @id @default(uuid())
 
   name   String
-  notify Notify @default(UNKNOWN)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -161,12 +160,4 @@ enum Periodic {
   WEEK
   MONTH
   YEAR
-}
-
-enum Notify {
-  UNKNOWN
-  URGENT
-  ERROR
-  DELAY
-  REMINDER
 }

@@ -17,3 +17,9 @@ export async function createNotification({userId, todoId, name} : Pick<Notificat
         }
     })
 }
+
+export async function deleteNotification(id : Notification['id']) {
+    return await prisma.notification.delete({
+        where : {id}
+    })
+}

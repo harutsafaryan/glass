@@ -1,5 +1,5 @@
-import { setInterval } from "node:timers/promises"
 import { useEffect, useState } from "react"
+
 import { classNames } from "~/utility/helper"
 
 interface TodoProps {
@@ -41,23 +41,24 @@ export default function TodoCard({ todo }: TodoProps) {
     // const lastCheckDate = todo.checks[0]?.createdAt ? new Date(todo.checks[0]?.createdAt).toLocaleDateString() : null;
     // const scheduledDate = todo.schedules.length > 0 ? new Date(todo.schedules?.[0]?.date).toLocaleDateString() : null;
 
-    const notifyColor = todo.notifications.length > 0;
-    const [bgColor, setBgColor] = useState('bg-white')
+    const isNotificationExist = todo.notifications.length > 0;
+    const [index, setIndex] = useState(0);
+
+    const notificationCount = todo.notifications.length > 1 ? `${index+1}/${todo.notifications.length}` : '';
 
     useEffect(() => {
         setTimeout(() => {
-            if (notifyColor) {
-                if (bgColor === 'bg-white')
-                    setBgColor('transition duration-500 ease-in-out bg-red-200')
-                else
-                    setBgColor('bg-white')
-            }
-        }, 2000)
-    }, [bgColor, notifyColor])
+        if (index < todo.notifications.length-1)
+            setIndex(index + 1);
+        else 
+        setIndex(0)
+    }, 2500)
+    }, [index, todo.notifications.length])
 
     return (
         <div className={
-            classNames('relative col-span-1 divide-y divide-gray-200 rounded-lg shadow-lg border-2 border-sky-800 ', bgColor)}>
+            classNames('relative col-span-1 divide-y divide-gray-200 rounded-lg shadow-lg border-2 border-sky-800 ',
+                `${isNotificationExist ? 'bg-green-100' : 'bg-white'}`)}>
             <div className="flex w-full items-center justify-between space-x-3 p-3">
                 <div className="flex-1 truncate">
                     <div className="flex items-center space-x-3">
@@ -69,6 +70,13 @@ export default function TodoCard({ todo }: TodoProps) {
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.definition}</p>
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.location}</p>
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.criteria}</p>
+                    {
+                        isNotificationExist
+                            ? <span className="absolute -top-5 right-0 flex space-x-2 mt-2 flex-shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                {todo.notifications[index].name + ' ' +notificationCount}
+                            </span>
+                            : null
+                    }
 
                     <div className="absolute -top-5 flex space-x-2 mt-2">
                         {

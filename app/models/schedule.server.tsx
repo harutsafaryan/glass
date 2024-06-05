@@ -22,6 +22,12 @@ export async function createSchedule(todoId: Todo['id'], date: Schedule['date'])
     })
 }
 
+export async function deleteSchedule(id : Schedule['id']) {
+    return await prisma.schedule.delete({
+        where : {id}
+    })
+}
+
 export async function getScheduleByTodoId(todoId: Todo['id']) {
     const  today = new Date();
     today.setHours(0);
