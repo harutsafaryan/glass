@@ -15,7 +15,7 @@ export default function Index() {
             <div className="absolute inset-0">
               <img
                 className="h-full w-full object-cover"
-                src="https://user-images.githubusercontent.com/1500684/158276320-c46b661b-8eff-4a4d-82c6-cf296c987a12.jpg"
+                src="https://github.com/harutsafaryan/glass/blob/dev/public/logo.png"
                 alt="BB King playing blues on his Gibson 'Lucille' guitar"
               />
               <div className="absolute inset-0 bg-[color:rgba(27,167,254,0.5)] mix-blend-multiply" />
@@ -57,7 +57,7 @@ export default function Index() {
               </div>
               <a href="https://remix.run">
                 <img
-                  src="https://user-images.githubusercontent.com/1500684/158298926-e45dafff-3544-4b69-96d6-d3bcc33fc76a.svg"
+                  src="https://github.com/harutsafaryan/glass/blob/dev/public/logo.png"
                   alt="Remix"
                   className="mx-auto mt-16 w-full max-w-[12rem] md:max-w-[16rem]"
                 />

@@ -6,6 +6,8 @@ import invariant from "tiny-invariant";
 
 import Accordion from "~/components/Accordion";
 import CheckList from "~/components/ChecksList";
+import {AddNotification, NotificationItem} from "~/components/Notification";
+import {ScheduleItem, AddSchedule} from "~/components/Schedule"
 import TodoInfo from "~/components/TodoInfo";
 import { createCheck, getChecksByTodoId } from "~/models/checks.server";
 import { createNotification, deleteNotification, getNotificationsByUser } from "~/models/notifications.server";
@@ -231,89 +233,5 @@ export default function TodoInfoPage() {
                 }
             </Accordion>
         </div>
-    )
-}
-
-interface notificationProp {
-    notification: {
-        id: string,
-        name: string
-    }
-}
-
-function NotificationItem({ notification }: notificationProp) {
-    const fetcher = useFetcher();
-    const isDeleting = fetcher.state === "submitting";
-
-    return (
-        <li className={`flex ${isDeleting ? 'opacity-25' : 'opacity-100'}`}>
-            {notification.name}
-            <fetcher.Form method="post">
-                <input type="hidden" name="notificationId" value={notification.id}></input>
-                <button type="submit" name="_action" value="delete_notification"
-                    className="rounded bg-rose-100 ml-5 px-1 py-1 text-xs font-semibold text-rose-800 shadow-sm hover:bg-rose-200">{isDeleting ? 'deleting...' : 'delete'}</button>
-            </fetcher.Form>
-        </li>
-    )
-}
-
-interface SchedulenProp {
-    schedule: {
-        id: string,
-        date: string
-    }
-}
-
-function ScheduleItem({ schedule }: SchedulenProp) {
-    const fetcher = useFetcher();
-    const isDeleting = fetcher.state === "submitting";
-
-    return (
-        <li className={`flex ${isDeleting ? 'opacity-25' : 'opacity-100'}`}>
-            {new Date(schedule.date).toLocaleDateString()}
-            <fetcher.Form method="post">
-                <input type="hidden" name="scheduleId" value={schedule.id}></input>
-                <button type="submit" name="_action" value="delete_schedule"
-                    className="rounded bg-rose-100 ml-5 px-1 py-1 text-xs font-semibold text-rose-800 shadow-sm hover:bg-rose-200">{isDeleting ? 'deleting...' : 'delete'}</button>
-            </fetcher.Form>
-        </li>
-    )
-}
-
-interface AddNotificationProp {
-    todoId: string
-}
-
-function AddNotification({ todoId }: AddNotificationProp) {
-    const name = useRef<HTMLInputElement>(null);
-    const fetcher = useFetcher();
-    const isAdding = fetcher.state === "submitting";
-
-
-    return (
-        <fetcher.Form method="post">
-            <input type="hidden" name="todoId" value={todoId}></input>
-            <input type="text" name="notification_name" ref={name}></input>
-            <button
-                disabled={isAdding}
-                className="disabled:opacity-25 rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50 active:bg-slate-500"
-                type="submit" name="_action" value="new_notification">{isAdding ? 'Adding...' : "Add"}</button>
-        </fetcher.Form>
-    )
-}
-
-function AddSchedule({ todoId }: AddNotificationProp) {
-    const fetcher = useFetcher();
-    const isAdding = fetcher.state === "submitting";
-
-    return (
-        <fetcher.Form method="post">
-            <input type="hidden" name="todoId" value={todoId}></input>
-            <input type="date" name="date"></input>
-            <button
-                disabled={isAdding}
-                className="disabled:opacity-25 rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50 active:bg-slate-500"
-                type="submit" name="_action" value="add_schedule">{isAdding ? 'Adding...' : "Add"}</button>
-        </fetcher.Form>
     )
 }

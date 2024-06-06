@@ -57,7 +57,7 @@ export default function FilterTodos({ articles, references, period, referenceId,
     }
 
     return (
-        <div className="flex space-x-4">
+        <div className="flex justify-between px-3 py-2 bg-gray-200">
             <button
                 onClick={handleCLick}
                 className="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50 active:bg-slate-500">
