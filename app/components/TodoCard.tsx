@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react"
+
+import { classNames } from "~/utility/helper"
+
 interface TodoProps {
     todo: {
         title: string,
@@ -17,6 +21,9 @@ interface TodoProps {
             id: string,
             createdAt: string
         }[]//
+        notifications: {
+            name: string
+        }[]
     }
 }
 
@@ -28,13 +35,30 @@ interface TodoProps {
 
 const TICKS_PER_DAY = 86_400_000
 export default function TodoCard({ todo }: TodoProps) {
+
     const daysCountToNextCheck = getDaysToNextCheck({ todo });
     // const periodicity = todo.periodic;
     // const lastCheckDate = todo.checks[0]?.createdAt ? new Date(todo.checks[0]?.createdAt).toLocaleDateString() : null;
     // const scheduledDate = todo.schedules.length > 0 ? new Date(todo.schedules?.[0]?.date).toLocaleDateString() : null;
 
+    const isNotificationExist = todo.notifications.length > 0;
+    const [index, setIndex] = useState(0);
+
+    const notificationCount = todo.notifications.length > 1 ? `${index+1}/${todo.notifications.length}` : '';
+
+    useEffect(() => {
+        setTimeout(() => {
+        if (index < todo.notifications.length-1)
+            setIndex(index + 1);
+        else 
+        setIndex(0)
+    }, 2500)
+    }, [index, todo.notifications.length])
+
     return (
-        <div className="relative col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow-lg border-2 border-sky-800">
+        <div className={
+            classNames('relative col-span-1 divide-y divide-gray-200 rounded-lg shadow-lg border-2 border-sky-800 ',
+                `${isNotificationExist ? 'bg-green-100' : 'bg-white'}`)}>
             <div className="flex w-full items-center justify-between space-x-3 p-3">
                 <div className="flex-1 truncate">
                     <div className="flex items-center space-x-3">
@@ -46,12 +70,19 @@ export default function TodoCard({ todo }: TodoProps) {
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.definition}</p>
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.location}</p>
                     <p className="mt-1 truncate text-sm text-gray-500">{todo.criteria}</p>
-                   
+                    {
+                        isNotificationExist
+                            ? <span className="absolute -top-5 right-0 flex space-x-2 mt-2 flex-shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                {todo.notifications[index].name + ' ' +notificationCount}
+                            </span>
+                            : null
+                    }
+
                     <div className="absolute -top-5 flex space-x-2 mt-2">
                         {
-                            daysCountToNextCheck ? <span className={`inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 ${daysCountToNextCheck && daysCountToNextCheck <= 1 ? 'animate-bounce' : null }`}>
-                            {daysCountToNextCheck}
-                        </span> : null
+                            daysCountToNextCheck ? <span className={`inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 ${daysCountToNextCheck && daysCountToNextCheck <= 1 ? 'animate-bounce' : null}`}>
+                                {daysCountToNextCheck}
+                            </span> : null
                         }
                         {/* <span className="relative inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                             {`next check on ${scheduledDate}`}

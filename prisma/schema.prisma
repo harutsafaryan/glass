@@ -17,10 +17,11 @@ model User {
   updatedAt DateTime @updatedAt
   active    Boolean  @default(true)
 
-  password Password?
-  notes    Note[]
-  checks   Check[]
-  todos    Todo[]
+  password      Password?
+  notes         Note[]
+  checks        Check[]
+  todos         Todo[]
+  totifications Notification[]
 }
 
 model Password {
@@ -82,8 +83,9 @@ model Todo {
 
   periodic Periodic @default(UNKNOWN)
 
-  checks    Check[]
-  schedules Schedule[]
+  checks       Check[]
+  schedules    Schedule[]
+  notifications Notification[]
 
   user      User      @relation(fields: [userId], references: [id])
   article   Article   @relation(fields: [articleId], references: [id])
@@ -122,6 +124,22 @@ model Schedule {
 
   todoId String
   todo   Todo   @relation(fields: [todoId], references: [id])
+}
+
+model Notification {
+  id String @id @default(uuid())
+
+  name   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
+  userId String
+  todoId String
+
+  user User @relation(fields: [userId], references: [id])
+  todo Todo @relation(fields: [todoId], references: [id])
 }
 
 enum Role {

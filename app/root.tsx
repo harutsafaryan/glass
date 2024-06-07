@@ -17,7 +17,6 @@ import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
-  Form,
   Link,
   Links,
   LiveReload,
@@ -42,11 +41,6 @@ const navigation = [
   { name: 'Todos', link: '/todos', icon: Square3Stack3DIcon, current: false },
   { name: 'Checks', link: '/checks', icon: ClipboardDocumentCheckIcon, current: false },
   { name: 'Machines', link: '/machines', icon: CogIcon, current: false },
-]
-const teams = [
-  { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-  { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-  { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
 ]
 
 function classNames(...classes: string[]) {
@@ -153,29 +147,7 @@ export default function App() {
                               ))}
                             </ul>
                           </li>
-                          <li>
-                            <div className="text-xs font-semibold leading-6 text-indigo-200">Your teams</div>
-                            <ul className="-mx-2 mt-2 space-y-1">
-                              {teams.map((team) => (
-                                <li key={team.name}>
-                                  <a
-                                    href={team.href}
-                                    className={classNames(
-                                      team.current
-                                        ? 'bg-indigo-700 text-white'
-                                        : 'text-indigo-200 hover:text-white hover:bg-indigo-700',
-                                      'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                    )}
-                                  >
-                                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
-                                      {team.initial}
-                                    </span>
-                                    <span className="truncate">{team.name}</span>
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          </li>
+
                         </ul>
                       </nav>
                     </div>
@@ -224,30 +196,6 @@ export default function App() {
                       ))}
                     </ul>
                   </li>
-                  <li>
-                    <div className="text-xs font-semibold leading-6 text-indigo-200">Your teams</div>
-                    <ul className="-mx-2 mt-2 space-y-1">
-                      {teams.map((team) => (
-                        <li key={team.name}>
-                          <a
-                            href={team.href}
-                            className={classNames(
-                              team.current
-                                ? 'bg-indigo-700 text-white'
-                                : 'text-indigo-200 hover:text-white hover:bg-indigo-700',
-                              'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                            )}
-                          >
-                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
-                              {team.initial}
-                            </span>
-                            <span className="truncate">{team.name}</span>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-
                 </ul>
               </nav>
             </div>
@@ -307,19 +255,14 @@ export default function App() {
                       >
                         <MenuItems className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                           <MenuItem>
-                            <Form action="/logout" method="post"
+                            <Link to='/logout'
                               className="block px-3 py-1 text-sm leading-6 text-gray-900 hover:bg-slate-300">
-                              <button
-                                type="submit"
-                              >
-                                Sign Out
-                              </button>
-                            </Form>
+                              Sign Out
+                            </Link>
                           </MenuItem>
                           <MenuItem>
                             <Link to='profile'
-                              className="block px-3 py-1 text-sm leading-6 text-gray-900 hover:bg-slate-300"
-                            >
+                              className="block px-3 py-1 text-sm leading-6 text-gray-900 hover:bg-slate-300">
                               Your profile
                             </Link>
                           </MenuItem>
@@ -333,8 +276,8 @@ export default function App() {
               </div>
             </div>
 
-            <main className="py-10">
-              <div className="px-4 sm:px-6 lg:px-8">
+            <main className="py-1">
+              <div className="px-4 sm:px-2 lg:px-4">
                 <Outlet />
               </div>
             </main>

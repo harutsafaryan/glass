@@ -146,43 +146,37 @@ export default function NewTodoPage() {
                         <div className="sm:col-span-3">
                             <label htmlFor="reference" className="block text-sm font-medium leading-6 text-gray-900">
                                 Reference
-                            </label>
-                            <div className="mt-1">
                                 <select
                                     name="referenceId"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
                                     {references.map(reference => (<option key={reference.id} value={reference.id}>{reference.name}</option>))}
                                 </select>
-                            </div>
+                            </label>
                         </div>
 
                         <div className="sm:col-span-3">
                             <label htmlFor="reference" className="block text-sm font-medium leading-6 text-gray-900">
                                 Article
-                            </label>
-                            <div className="mt-1">
                                 <select
                                     name="articleId"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
                                     {articles.map(article => (<option key={article.id} value={article.id}>{article.name}</option>))}
                                 </select>
-                            </div>
+                            </label>
                         </div>
 
                         <div className="sm:col-span-3">
                             <label htmlFor="reference" className="block text-sm font-medium leading-6 text-gray-900">
                                 Period
-                            </label>
-                            <div className="mt-1">
                                 <select
                                     name="periodic"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
                                     {periods.map((period, index) => (<option key={index} value={period}>{period}</option>))}
                                 </select>
-                            </div>
+                            </label>
                         </div>
 
 
