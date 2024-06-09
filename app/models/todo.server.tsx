@@ -1,8 +1,8 @@
-import { Periodic, Todo } from "@prisma/client";
+import { Periodic, Todo, User } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
-export async function getTodos() {
+export async function getTodos(userId: User['id']) {
     const today = new Date();
     return await prisma.todo.findMany({
         where: {
@@ -27,6 +27,9 @@ export async function getTodos() {
                 orderBy: {
                     createdAt: "desc"
                 }
+            },
+            notifications: {
+                where: { userId }
             }
         }
     })

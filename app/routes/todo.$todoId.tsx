@@ -6,9 +6,12 @@ import invariant from "tiny-invariant";
 
 import Accordion from "~/components/Accordion";
 import CheckList from "~/components/ChecksList";
+import {AddNotification, NotificationItem} from "~/components/Notification";
+import {ScheduleItem, AddSchedule} from "~/components/Schedule"
 import TodoInfo from "~/components/TodoInfo";
 import { createCheck, getChecksByTodoId } from "~/models/checks.server";
-import { createSchedule, getScheduleByTodoId } from "~/models/schedule.server";
+import { createNotification, deleteNotification, getNotificationsByUser } from "~/models/notifications.server";
+import { createSchedule, deleteSchedule, getScheduleByTodoId } from "~/models/schedule.server";
 import { getTodoById, updatePeriodByTodoId } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
@@ -19,15 +22,16 @@ const periods = Object.keys(Periodic);
 type PeriodKeys = keyof typeof Periodic;
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-    await requireUserId(request);
+    const userId = await requireUserId(request);
     invariant(params.todoId, "todoId not found");
     const todoId = params.todoId;
     const todo = await getTodoById(todoId);
     const checks = await getChecksByTodoId(todoId);
     const schedules = await getScheduleByTodoId(todoId);
+    const notifications = (await getNotificationsByUser(userId)).filter(n => n.todoId === todoId);
 
 
-    return json({ todo, checks, schedules });
+    return json({ todo, checks, schedules, notifications });
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -52,11 +56,13 @@ export async function action({ request }: ActionFunctionArgs) {
         return null;
     }
 
-    if (_action === "set_date") {
+    if (_action === "add_schedule") {
         const date = values['date'] as string;
         const d = new Date(date);
         const todoId = values['todoId'] as string;
         try {
+        await new Promise(resolve => setTimeout(resolve, 1000))
+
             await createSchedule(todoId, d);
         }
         catch (error) {
@@ -69,18 +75,42 @@ export async function action({ request }: ActionFunctionArgs) {
         const period = values['period'] as PeriodKeys;
         const todoId = values['todoId'] as string;
         await updatePeriodByTodoId(todoId, period);
-
     }
+
+    if (_action === "new_notification") {
+        const todoId = values['todoId'] as string;
+        const name = values['notification_name'] as string;
+        const userId = await requireUserId(request);
+
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        await createNotification({ userId, todoId, name })
+    }
+
+    if (_action === "delete_notification") {
+        const notificationId = values['notificationId'] as string;
+
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        await deleteNotification(notificationId);
+    }
+
+    if (_action === "delete_schedule") {
+        const scheduleId = values['scheduleId'] as string;
+
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        await deleteSchedule(scheduleId);
+    }
+
     return null;
 }
 
 export default function TodoInfoPage() {
     const fetcher = useFetcher()
-    const { todo, checks, schedules } = useLoaderData<typeof loader>();
+    const { todo, checks, schedules, notifications } = useLoaderData<typeof loader>();
 
     const commentRef = useRef<HTMLTextAreaElement>(null);
     const valueRef = useRef<HTMLInputElement>(null);
     const textRef = useRef<HTMLInputElement>(null);
+
 
     if (!todo)
         return null;
@@ -187,23 +217,20 @@ export default function TodoInfoPage() {
             </Accordion>
 
             <Accordion title={schedules.length === 0 ? 'No any schedule' : `There are ${schedules.length} actual schedules, next one one ${new Date(schedules[0].date).toLocaleDateString()}`}>
-                <fetcher.Form method="post">
-                    <input type="hidden" name="todoId" value={todo?.id}></input>
-                    <label>
-                        <span>Create new </span>
-                        <input type="date" name="date"></input>
-                    </label>
-                    <button
-                        className="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50 active:bg-slate-500"
-                        type="submit" name="_action" value="set_date">Save</button>
-                </fetcher.Form>
-                <ul>
+                <AddSchedule todoId={todo.id} />
+                <ul className="space-y-1">
                     {
-                        schedules.map((schedule, index) => (
-                            <li key={index}>{new Date(schedule.date).toLocaleDateString()}</li>
-                        ))
+                        schedules.map((schedule) => <ScheduleItem schedule={schedule} key={schedule.id} />)
                     }
                 </ul>
+            </Accordion>
+            <Accordion title={notifications.length === 0 ? 'No any notification' : `There are ${notifications.length} actual notification${notifications.length === 1 ? '' : 's'}`}>
+                <AddNotification todoId={todo.id} />
+                {
+                    <ul className="space-y-1">
+                        {notifications.map(notification => <NotificationItem notification={notification} key={notification.id} />)}
+                    </ul>
+                }
             </Accordion>
         </div>
     )
