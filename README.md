@@ -215,12 +215,12 @@ We use [Prettier](https://prettier.io/) for auto-formatting in this project. It'
 
 Postgres cluster glass-e317-db created
   Username:    postgres
-  Password:    C6mHgtMA6lAnjQL
+  Password:    AfFjHFyh6We0Iw5
   Hostname:    glass-e317-db.internal
-  Flycast:     fdaa:9:14c0:0:1::1a
+  Flycast:     fdaa:9:14c0:0:1::25
   Proxy port:  5432
   Postgres port:  5433
-  Connection string: postgres://postgres:C6mHgtMA6lAnjQL@glass-e317-db.flycast:5432
+  Connection string: postgres://postgres:AfFjHFyh6We0Iw5@glass-e317-db.flycast:5432
 
 Save your credentials in a secure place -- you won't be able to see them again!
 
@@ -235,18 +235,18 @@ Creating user
 
 Postgres cluster glass-e317-db is now attached to glass-e317
 The following secret was added to glass-e317:
-  DATABASE_URL=postgres://glass_e317:UlW7cSRh0xoA9CP@glass-e317-db.flycast:5432/glass_e317?sslmode=disable
+  DATABASE_URL=postgres://glass_e317:PTkwgvwIGpCoUhX@glass-e317-db.flycast:5432/glass_e317?sslmode=disable
 
-  ------------------------------------------------------------------------------
+  /////////////////////////////////////////////////////////////////////////
 
   Postgres cluster glass-e317-staging-db created
   Username:    postgres
-  Password:    MBSRw1L99TjsHW8
+  Password:    wewmvwLx8bvWPKK
   Hostname:    glass-e317-staging-db.internal
-  Flycast:     fdaa:9:14c0:0:1::1d
+  Flycast:     fdaa:9:14c0:0:1::26
   Proxy port:  5432
   Postgres port:  5433
-  Connection string: postgres://postgres:MBSRw1L99TjsHW8@glass-e317-staging-db.flycast:5432
+  Connection string: postgres://postgres:wewmvwLx8bvWPKK@glass-e317-staging-db.flycast:5432
 
 Save your credentials in a secure place -- you won't be able to see them again!
 
@@ -261,4 +261,4 @@ Creating user
 
 Postgres cluster glass-e317-staging-db is now attached to glass-e317-staging
 The following secret was added to glass-e317-staging:
-  DATABASE_URL=postgres://glass_e317_staging:83ZtmpSS3dTM7iq@glass-e317-staging-db.flycast:5432/glass_e317_staging?sslmode=disable
+  DATABASE_URL=postgres://glass_e317_staging:b6bI4n7pC1tHEba@glass-e317-staging-db.flycast:5432/glass_e317_staging?sslmode=disable

@@ -7,6 +7,8 @@ swap_size_mb = 512
 [env]
 PORT = "8080"
 METRICS_PORT = "8081"
+primary_region = "waw"
+
 
 [metrics]
 port = 8_081
