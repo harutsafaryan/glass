@@ -238,6 +238,7 @@ The following secret was added to glass-e317:
   DATABASE_URL=postgres://glass_e317:PTkwgvwIGpCoUhX@glass-e317-db.flycast:5432/glass_e317?sslmode=disable
 
   /////////////////////////////////////////////////////////////////////////
+  
 
   Postgres cluster glass-e317-staging-db created
   Username:    postgres
