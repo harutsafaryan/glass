@@ -64,7 +64,7 @@ export default function FilterTodos({ articles, references, period, referenceId,
                 Show all
             </button>
             <label className="block text-sm font-medium leading-6 text-gray-900">
-                Filter by Period
+                Filter by period
                 <select name="selectedPeriod" value={period} onChange={(e) => setPeriod(e.target.value)}
                     className="rounded bg-white px-2 py-1 ml-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
                 >
