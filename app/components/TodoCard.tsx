@@ -44,15 +44,15 @@ export default function TodoCard({ todo }: TodoProps) {
     const isNotificationExist = todo.notifications.length > 0;
     const [index, setIndex] = useState(0);
 
-    const notificationCount = todo.notifications.length > 1 ? `${index+1}/${todo.notifications.length}` : '';
+    const notificationCount = todo.notifications.length > 1 ? `${index + 1}/${todo.notifications.length}` : '';
 
     useEffect(() => {
         setTimeout(() => {
-        if (index < todo.notifications.length-1)
-            setIndex(index + 1);
-        else 
-        setIndex(0)
-    }, 2500)
+            if (index < todo.notifications.length - 1)
+                setIndex(index + 1);
+            else
+                setIndex(0)
+        }, 2500)
     }, [index, todo.notifications.length])
 
     return (
@@ -73,16 +73,20 @@ export default function TodoCard({ todo }: TodoProps) {
                     {
                         isNotificationExist
                             ? <span className="absolute -top-5 right-0 flex space-x-2 mt-2 flex-shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                                {todo.notifications[index].name + ' ' +notificationCount}
+                                {todo.notifications[index].name + ' ' + notificationCount}
                             </span>
                             : null
                     }
 
                     <div className="absolute -top-5 flex space-x-2 mt-2">
                         {
-                            daysCountToNextCheck ? <span className={`inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 ${daysCountToNextCheck && daysCountToNextCheck <= 1 ? 'animate-bounce' : null}`}>
-                                {daysCountToNextCheck}
-                            </span> : null
+                            daysCountToNextCheck
+                                ? <span className={`inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 ${daysCountToNextCheck && daysCountToNextCheck <= 1 ? 'animate-bounce' : null}`}>
+                                    {daysCountToNextCheck}
+                                </span> 
+                                : <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                                    no any check or schedule
+                                </span>
                         }
                         {/* <span className="relative inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                             {`next check on ${scheduledDate}`}
@@ -132,7 +136,6 @@ function getDaysToNextCheck({ todo }: TodoProps) {
         return Math.floor((today - checkCraetiondDate + daysCount) / TICKS_PER_DAY);
     }
     else
-
         return null;
 }
 
