@@ -6,8 +6,12 @@ import { classNames } from "~/utility/helper";
 import { CheckProp } from "./CheckProp";
 
 export default function CheckList({ checks }: CheckProp) {
+
+    if (checks === undefined)
+        return null
+
     const navigate = useNavigate();
-    if (checks.length === 0)
+    if (checks?.length === 0)
         return (
             <div className="px-2 sm:px-6 lg:px-1">
                 <h1 className="text-base font-semibold mt-2 leading-6 text-gray-900">There is no any check!</h1>
