@@ -141,16 +141,16 @@ export async function getChecksByMonth(month: string) {
         },
         select: {
             id: true,
+            value: true,
+            text: true,
+            comment: true,
+            status: true,
             createdAt: true,
-            user: true,
             year: true,
             month: true,
             day: true,
-            todo: {
-                select: {
-                    title: true
-                }
-            }
+            user: { select: { name: true } },
+            todo: { select: { title: true } }
         }
     })
 }

@@ -6,11 +6,11 @@ import { classNames } from "~/utility/helper";
 import { CheckProp } from "./CheckProp";
 
 export default function CheckList({ checks }: CheckProp) {
+    const navigate = useNavigate();
 
     if (checks === undefined)
         return null
 
-    const navigate = useNavigate();
     if (checks?.length === 0)
         return (
             <div className="px-2 sm:px-6 lg:px-1">
