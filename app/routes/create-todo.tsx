@@ -70,7 +70,6 @@ export default function NewTodoPage() {
     const isSubmitting = navigation.formAction === '/create-todo';
 
     const actionData = useActionData<typeof action>();
-    console.log('action Data: ', actionData)
     const { references, articles } = useLoaderData<typeof loader>();
 
     const titleRef = useRef<HTMLInputElement>(null);

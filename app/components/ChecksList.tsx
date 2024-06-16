@@ -71,7 +71,7 @@ export default function CheckList({ checks }: CheckProp) {
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.text}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{new Date(check.createdAt).toLocaleString()}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.user.name}</td>
-                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.comment}</td>
+                                            <td className="whitespace-nowrap px-3 py-1 text-sm text-ellipsis overflow-hidden">{check.comment}</td>
                                         </tr>
                                     ))}
                                 </tbody>
