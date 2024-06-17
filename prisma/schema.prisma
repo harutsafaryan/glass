@@ -122,9 +122,9 @@ model Machine {
   id String @id @default(uuid())
 
   name         String
-  year         Int
-  manufacturer String
-  serialNumber String
+  year         Int?
+  manufacturer String?
+  serialNumber String?
   department   Departmnet?
 
   createdAt DateTime @default(now())
