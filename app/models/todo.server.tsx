@@ -91,7 +91,6 @@ export async function createTodo({
     articleId,
     periodic,
     userId
-
 }: Pick<Todo, 'remark' | 'title' | 'definition' | 'method' | 'location' | 'criteria' | 'record' | 'comments' | 'referenceId' | 'articleId' | 'periodic' | 'userId'>) {
 
     // await new Promise(resolve => setTimeout(resolve, 100))

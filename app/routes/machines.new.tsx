@@ -1,6 +1,12 @@
+import { Departmnet } from "@prisma/client";
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import { createMachine } from "~/models/machines.server";
+import { requireUserId } from "~/session.server";
+
+const departments = Object.keys(Departmnet);
+type DepartmnetKeys = keyof typeof Departmnet;
 
 interface Errors {
     name: string | null,
@@ -11,13 +17,14 @@ interface Errors {
 }
 
 export async function action({ request }: ActionFunctionArgs) {
+    const userId = await requireUserId(request);
     const formData = await request.formData();
 
-    const name = formData.get("name");
-    const manufacturer = formData.get("manufacturer");
-    const year = formData.get("year");
-    const serialNumber = formData.get("serialNumber");
-    const department = formData.get("department");
+    const name = formData.get("name") as string;
+    const manufacturer = formData.get("manufacturer") as string;
+    const year = Number(formData.get("year"));
+    const serialNumber = formData.get("serialNumber") as string;
+    const department = formData.get("department") as DepartmnetKeys;
 
     const errors: Errors = {
         name: null,
@@ -30,7 +37,7 @@ export async function action({ request }: ActionFunctionArgs) {
     if (typeof name !== "string" || name.length === 0)
         errors.name = "name is required"
 
-    if (typeof year !== 'number' || year < 1980 || year > 2030)
+    if (typeof year !== 'number')
         errors.year = "please enter valid value"
 
     if (typeof manufacturer !== "string" || manufacturer.length === 0)
@@ -50,6 +57,8 @@ export async function action({ request }: ActionFunctionArgs) {
             );
     }
 
+    await createMachine({name, year, manufacturer, serialNumber, department, userId});
+
     return null;
 }
 
@@ -60,7 +69,6 @@ export default function NewMachinePage() {
     const yearRef = useRef<HTMLInputElement>(null);
     const manufacturerRef = useRef<HTMLInputElement>(null);
     const serialNumberRef = useRef<HTMLInputElement>(null);
-    const departmentRef = useRef<HTMLInputElement>(null);
 
 
     useEffect(() => {
@@ -68,7 +76,6 @@ export default function NewMachinePage() {
         if (actionData?.errors?.year) yearRef.current?.focus();
         if (actionData?.errors?.manufacturer) manufacturerRef.current?.focus();
         if (actionData?.errors?.serialNumber) serialNumberRef.current?.focus();
-        if (actionData?.errors?.departmnet) departmentRef.current?.focus();
 
     }, [actionData])
 
@@ -91,41 +98,65 @@ export default function NewMachinePage() {
                         ) : null}
                     </label>
                 </div>
-                <label className="flex  gap-1">
-                    <span>manufacturer: </span>
-                    <input
-                        ref={manufacturerRef}
-                        className="border border-red-200"
-                        type="text"
-                        name="manufacturer" />
-                </label>
 
-                <label className="flex  gap-1">
-                    <span>Year: </span>
-                    <input
-                        ref={yearRef}
-                        className="border border-red-200"
-                        type="text"
-                        name="year" />
-                </label>
+                <div className="sm:col-span-4">
+                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                        <span>manufacturer: </span>
+                        <input
+                            ref={manufacturerRef}
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            type="text"
+                            name="manufacturer" />
+                    </label>
+                    {actionData?.errors?.manufacturer ? (
+                        <div className="pt-1 text-red-700">
+                            {actionData.errors.manufacturer}
+                        </div>
+                    ) : null}
+                </div>
 
-                <label className="flex  gap-1">
-                    <span>serialNumber: </span>
-                    <input
-                        ref={serialNumberRef}
-                        className="border border-red-200"
-                        type="text"
-                        name="serialNumber" />
-                </label>
+                <div className="sm:col-span-4">
+                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                        <span>Year: </span>
+                        <input
+                            ref={yearRef}
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            type="number" min={1980} max={2030}
+                            name="year" />
+                    </label>
+                    {actionData?.errors?.year ? (
+                        <div className="pt-1 text-red-700">
+                            {actionData.errors.year}
+                        </div>
+                    ) : null}
+                </div>
 
-                <label className="flex  gap-1">
-                    <span>department: </span>
-                    <input
-                        ref={departmentRef}
-                        className="border border-red-200"
-                        type="text"
-                        name="department" />
-                </label>
+                <div className="sm:col-span-4">
+                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                        <span>serialNumber: </span>
+                        <input
+                            ref={serialNumberRef}
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            type="text"
+                            name="serialNumber" />
+                    </label>
+                    {actionData?.errors?.serialNumber ? (
+                        <div className="pt-1 text-red-700">
+                            {actionData.errors.serialNumber}
+                        </div>
+                    ) : null}
+                </div>
+
+                <div className="sm:col-span-4">
+                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                        <span>department: </span>
+                        <select
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            name="department">
+                        {departments.map((dep, index) => (<option key={index} value={dep}>{dep}</option>))}
+                        </select>
+                    </label>
+                </div>
 
                 <button type="submit">Save</button>
             </div>

@@ -22,6 +22,8 @@ model User {
   checks        Check[]
   todos         Todo[]
   totifications Notification[]
+  machines  Machine[]
+  shedules      Schedule[]
 }
 
 model Password {
@@ -123,11 +125,14 @@ model Machine {
   year         Int
   manufacturer String
   serialNumber String
-  departmnet   Departmnet?
+  department   Departmnet?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   active    Boolean  @default(true)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   notifications Notification[]
   checks        Check[]
@@ -142,8 +147,10 @@ model Schedule {
   updatedAt DateTime @updatedAt
   active    Boolean  @default(true)
 
+  userId    String
   todoId    String?
   machineId String?
+  user User @relation(fields: [userId], references: [id])
   todo      Todo?    @relation(fields: [todoId], references: [id])
   machine   Machine? @relation(fields: [machineId], references: [id])
 }
