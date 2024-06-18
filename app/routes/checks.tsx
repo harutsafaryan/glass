@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 
 import CheckList from "~/components/ChecksList";
 import { getChecks } from "~/models/checks.server";
@@ -20,6 +20,11 @@ export default function ChecksPage() {
         return null;
 
     return (
-        <CheckList checks={checks} />
+        <div>
+            <Link to={'new'}>add chaeck</Link>
+            <CheckList checks={checks} />
+            <Outlet/>
+        </div>
+
     )
 }

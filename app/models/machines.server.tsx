@@ -10,6 +10,15 @@ export async function getMachines() {
   })
 }
 
+export async function getMachineById(id : Machine['id']) {
+  return await prisma.machine.findUnique({
+    where: {
+      id,
+      active: true
+    }
+  })
+}
+
 export async function createMachine({ name, year, manufacturer, serialNumber, department, userId }
   : Pick<Machine, 'name' | 'year' | 'manufacturer' | 'serialNumber' | 'department' | 'userId'>) {
   

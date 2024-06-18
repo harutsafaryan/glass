@@ -1,5 +1,5 @@
 
-import type { Check, Todo } from "@prisma/client";
+import type { Check, Machine, Todo } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 import { getMonthIndex } from "~/utility/helper";
@@ -71,9 +71,33 @@ export async function getChecksByTodoId(todoId: Todo['id']) {
         }
     })
 }
-//status, value, text, comment, record, todoId, userId
+
+export async function getChecksByMachineId(machineId: Machine['id']) {
+    return await prisma.check.findMany({
+        where: { machineId },
+        select: {
+            id: true,
+            value: true,
+            text: true,
+            comment: true,
+            status: true,
+            createdAt: true,
+            year: true,
+            month: true,
+            day: true,
+            user: { select: { name: true } },
+            todo: { select: { title: true } }
+        }
+    })
+}
+
+
 
 export async function createCheck({ status, value, text, comment, todoId, userId }: Pick<Check, 'status' | 'value' | 'text' | 'comment' | 'todoId' | 'userId'>) {
+
+    console.log('dasdas')
+    const todo = await prisma.todo.findUnique({where : {id : todoId}});
+    const machine = await prisma.machine.findUnique({where : {id : todoId}});
 
     return await prisma.check.create({
         data: {
@@ -81,7 +105,8 @@ export async function createCheck({ status, value, text, comment, todoId, userId
             value,
             text,
             comment,
-            todoId,
+            todoId : todo?.id,
+            machineId : machine?.id,
             userId
         }
     })
