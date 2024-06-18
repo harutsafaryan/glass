@@ -40,8 +40,6 @@ export async function action({ request }: ActionFunctionArgs) {
 
     const { _action, ...values } = Object.fromEntries(formData);
 
-
-
     if (_action === "add_schedule") {
         const date = values['date'] as string;
         const d = new Date(date);

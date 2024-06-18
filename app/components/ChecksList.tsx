@@ -65,7 +65,7 @@ export default function CheckList({ checks }: CheckProp) {
                                                 'text-gray-900 hover:text-red-600'
                                             )}
                                         >
-                                            {isTododExist ? <td className="whitespace-nowrap px-3 py-1 text-sm">{check.todo.title}</td> : null}
+                                            {isTododExist ? <td className="whitespace-nowrap px-3 py-1 text-sm">{check?.todo?.title}</td> : null}
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.status}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.value}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.text}</td>

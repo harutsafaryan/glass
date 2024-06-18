@@ -2,6 +2,10 @@ import {Schedule, Todo } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
+export async function  getSchedules() {
+    return await prisma.schedule.findMany();    
+}
+
 export async function createSchedule(todoId: Todo['id'], date: Schedule['date']) {
     const isExist = await prisma.schedule.findFirst({
         where : {

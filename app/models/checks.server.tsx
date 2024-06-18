@@ -72,6 +72,7 @@ export async function getChecksByTodoId(todoId: Todo['id']) {
     })
 }
 
+
 export async function getChecksByMachineId(machineId: Machine['id']) {
     return await prisma.check.findMany({
         where: { machineId },
@@ -95,7 +96,7 @@ export async function getChecksByMachineId(machineId: Machine['id']) {
 
 export async function createCheck({ status, value, text, comment, todoId, userId }: Pick<Check, 'status' | 'value' | 'text' | 'comment' | 'todoId' | 'userId'>) {
 
-    console.log('dasdas')
+    console.log('createCheck')
     const todo = await prisma.todo.findUnique({where : {id : todoId}});
     const machine = await prisma.machine.findUnique({where : {id : todoId}});
 

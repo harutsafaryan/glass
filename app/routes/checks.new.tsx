@@ -42,7 +42,7 @@ export default function NewCheckPage({id}: prop) {
         <div>
             <p>new check page</p>
 
-            <fetcher.Form method="post">
+            <fetcher.Form method="post" action="/checks/new">
                 <input type="hidden" name="todoId" value={id}></input>
                 <div>
                     <label htmlFor="status" className="block text-sm font-medium leading-6 text-gray-900">

@@ -22,7 +22,7 @@ model User {
   checks        Check[]
   todos         Todo[]
   totifications Notification[]
-  machines  Machine[]
+  machines      Machine[]
   shedules      Schedule[]
 }
 
@@ -150,9 +150,10 @@ model Schedule {
   userId    String
   todoId    String?
   machineId String?
-  user User @relation(fields: [userId], references: [id])
-  todo      Todo?    @relation(fields: [todoId], references: [id])
-  machine   Machine? @relation(fields: [machineId], references: [id])
+
+  user    User     @relation(fields: [userId], references: [id])
+  todo    Todo?    @relation(fields: [todoId], references: [id])
+  machine Machine? @relation(fields: [machineId], references: [id])
 }
 
 model Notification {
