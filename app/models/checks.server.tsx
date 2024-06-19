@@ -88,6 +88,9 @@ export async function getChecksByMachineId(machineId: Machine['id']) {
             day: true,
             user: { select: { name: true } },
             todo: { select: { title: true } }
+        },
+        orderBy: {
+            createdAt: "desc"
         }
     })
 }
@@ -95,10 +98,11 @@ export async function getChecksByMachineId(machineId: Machine['id']) {
 
 
 export async function createCheck({ status, value, text, comment, todoId, userId }: Pick<Check, 'status' | 'value' | 'text' | 'comment' | 'todoId' | 'userId'>) {
-
-    console.log('createCheck')
     const todo = await prisma.todo.findUnique({where : {id : todoId}});
     const machine = await prisma.machine.findUnique({where : {id : todoId}});
+    
+    if (!todo && !machine)
+        return null;
 
     return await prisma.check.create({
         data: {
@@ -106,8 +110,8 @@ export async function createCheck({ status, value, text, comment, todoId, userId
             value,
             text,
             comment,
-            todoId : todo?.id,
-            machineId : machine?.id,
+            todoId : todo?.id ?? null,
+            machineId : machine?.id ?? null,
             userId
         }
     })

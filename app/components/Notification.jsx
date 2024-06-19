@@ -34,7 +34,7 @@ export function NotificationItem({ notification }) {
     return (
         <li className={`flex ${isDeleting ? 'opacity-25' : 'opacity-100'}`}>
             {notification.name}
-            <fetcher.Form method="post">
+            <fetcher.Form method="post" action={`/notifications/${notification.id}`}>
                 <input type="hidden" name="notificationId" value={notification.id}></input>
                 <button type="submit" name="_action" value="delete_notification"
                     className="rounded bg-rose-100 ml-5 px-1 py-1 text-xs font-semibold text-rose-800 shadow-sm hover:bg-rose-200">{isDeleting ? 'deleting...' : 'delete'}</button>

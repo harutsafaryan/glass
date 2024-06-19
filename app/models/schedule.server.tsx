@@ -1,54 +1,55 @@
-import {Schedule, Todo } from "@prisma/client";
+import { Schedule, Todo, User } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
-export async function  getSchedules() {
-    return await prisma.schedule.findMany();    
+export async function getSchedules() {
+    return await prisma.schedule.findMany();
 }
 
-export async function createSchedule(todoId: Todo['id'], date: Schedule['date']) {
-    const isExist = await prisma.schedule.findFirst({
-        where : {
-            todoId : todoId,
-            active : true,
-            date : date
-        }
-    })
+export async function getScheduleById(id: Schedule['id']) {
+    return await prisma.schedule.findUnique({ where: { id } });
+}
 
-    if (isExist)
+export async function createSchedule(refId: string, scheduleDate: Schedule['date'], userId: User['id']) {
+    const todo = await prisma.todo.findUnique({ where: { id: refId } });
+    const machine = await prisma.machine.findUnique({ where: { id: refId } });
+
+    if (!todo && !machine)
         return null;
 
     return await prisma.schedule.create({
         data: {
-            date,
-            todoId
+            userId,
+            date: scheduleDate,
+            todoId: todo?.id ?? null,
+            machineId: machine?.id ?? null
         }
     })
 }
 
-export async function deleteSchedule(id : Schedule['id']) {
+export async function deleteSchedule(id: Schedule['id']) {
     return await prisma.schedule.delete({
-        where : {id}
+        where: { id }
     })
 }
 
 export async function getScheduleByTodoId(todoId: Todo['id']) {
-    const  today = new Date();
+    const today = new Date();
     today.setHours(0);
     today.setMinutes(0);
     today.setSeconds(0);
     today.setMilliseconds(0);
 
-     return await prisma.schedule.findMany({
+    return await prisma.schedule.findMany({
         where: {
             todoId: todoId,
-            active : true,
-            date : {
+            active: true,
+            date: {
                 gte: today
             }
         },
-        orderBy : {
-            date : "asc"
+        orderBy: {
+            date: "asc"
         }
     })
 }

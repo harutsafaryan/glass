@@ -1,5 +1,5 @@
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 
 import { getSchedules } from "~/models/schedule.server";
 import { requireUser } from "~/session.server";
@@ -16,9 +16,17 @@ export default function SchedulesPage() {
     const { schedules } = useLoaderData<typeof loader>();
 
     return (
-        <>
-        <Link to="new">New schedule</Link>
-            {schedules.map(s => {s?.date})}
-        </>
+        <div>
+            <ul>
+                {
+                    schedules.map(s => (
+                        <li key={s.id}>
+                            <Link to={s.id}>{s.date}</Link>
+                        </li>
+                    ))
+                }
+            </ul>
+            <Outlet />
+        </div>
     )
 }
