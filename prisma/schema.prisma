@@ -24,6 +24,7 @@ model User {
   totifications Notification[]
   machines      Machine[]
   shedules      Schedule[]
+  issues        Issue[]
 }
 
 model Password {
@@ -137,11 +138,13 @@ model Machine {
   notifications Notification[]
   checks        Check[]
   schedules     Schedule[]
+  Issue         Issue[]
 }
 
 model Schedule {
   id   String   @id @default(uuid())
   date DateTime
+  name String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -174,6 +177,22 @@ model Notification {
   machine Machine? @relation(fields: [machineId], references: [id])
 }
 
+model Issue {
+  id   String @id @default(uuid())
+  name String
+  status IssueStatus @default(OPEN)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
+  machineId String?
+  userId    String
+
+  machine Machine? @relation(fields: [machineId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+}
+
 enum Role {
   ADMIN
   USER
@@ -184,6 +203,13 @@ enum Status {
   CHECKED
   SUCCESS
   FAIL
+}
+
+enum IssueStatus {
+  OPEN
+  BLOCKER
+  COMPLETED
+  CLOSED
 }
 
 enum Periodic {

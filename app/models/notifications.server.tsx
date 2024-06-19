@@ -43,7 +43,6 @@ export async function createNotification({userId, todoId, name} : Pick<Notificat
 }
 
 export async function deleteNotification(id : Notification['id']) {
-    await new Promise(res => setTimeout(res, 1500))
     return await prisma.notification.delete({
         where : {id}
     })

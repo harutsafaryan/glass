@@ -3,14 +3,16 @@ import { Schedule, Todo, User } from "@prisma/client";
 import { prisma } from "~/db.server";
 
 export async function getSchedules() {
-    return await prisma.schedule.findMany();
+    return await prisma.schedule.findMany({
+        where : {active : true}
+    });
 }
 
 export async function getScheduleById(id: Schedule['id']) {
     return await prisma.schedule.findUnique({ where: { id } });
 }
 
-export async function createSchedule(refId: string, scheduleDate: Schedule['date'], userId: User['id']) {
+export async function createSchedule(refId: string, scheduleDate: Schedule['date'], scheduleName : Schedule['name'],  userId: User['id']) {
     const todo = await prisma.todo.findUnique({ where: { id: refId } });
     const machine = await prisma.machine.findUnique({ where: { id: refId } });
 
@@ -21,6 +23,7 @@ export async function createSchedule(refId: string, scheduleDate: Schedule['date
         data: {
             userId,
             date: scheduleDate,
+            name : scheduleName,
             todoId: todo?.id ?? null,
             machineId: machine?.id ?? null
         }

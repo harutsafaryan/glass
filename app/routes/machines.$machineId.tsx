@@ -14,6 +14,8 @@ import NewNotificationPage from "./notifications.new";
 import { getNotifications } from "~/models/notifications.server";
 import NotificationSlider from "~/components/NotificationSlider";
 import { NotificationItem } from "~/components/Notification";
+import { getSchedules } from "~/models/schedule.server";
+import { ScheduleItem } from "~/components/Schedule";
 
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -23,12 +25,13 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
     const machine = await getMachineById(machineId);
     const checks = await getChecksByMachineId(machineId);
+    const schedules = (await getSchedules()).filter(s => s.machineId === machineId);
     const notifications = (await getNotifications()).filter(n => n.machineId === machineId);
 
     // const schedules = await getScheduleByTodoId(todoId);
     // const notifications = (await getNotificationsByUser(userId)).filter(n => n.todoId === todoId);
 
-    return json({ machine, checks, notifications });
+    return json({ machine, checks, schedules, notifications });
 }
 export async function action() {
     console.log('action');
@@ -37,7 +40,7 @@ export async function action() {
 
 export default function MachinePage() {
 
-    const { machine, checks, notifications } = useLoaderData<typeof loader>();
+    const { machine, checks, schedules, notifications } = useLoaderData<typeof loader>();
 
     if (!machine)
         return null;
@@ -49,7 +52,7 @@ export default function MachinePage() {
             <NotificationSlider notifications={notifications} />
 
             <Accordion title="Add check">
-                <NewCheckPage id={machine.id}/>
+                <NewCheckPage id={machine.id} />
             </Accordion>
 
             <Accordion title={checks.length === 0 ? 'There is no any check' : checks.length === 1 ? 'There is only 1 check' : ` Thera are ${checks.length} checks`}>
@@ -58,13 +61,16 @@ export default function MachinePage() {
 
             <Accordion title="Add schedule">
                 <NewSchedulePage refId={machine.id}></NewSchedulePage>
+                <ul className="space-y-1">
+                    {schedules.map(schedule => <ScheduleItem schedule={schedule} key={schedule.id} />)}
+                </ul>
             </Accordion>
 
             <Accordion title="Add Notification">
                 <NewNotificationPage refId={machine.id} />
                 <ul className="space-y-1">
-                        {notifications.map(notification => <NotificationItem notification={notification} key={notification.id} />)}
-                    </ul>
+                    {notifications.map(notification => <NotificationItem notification={notification} key={notification.id} />)}
+                </ul>
             </Accordion>
         </div>
     )

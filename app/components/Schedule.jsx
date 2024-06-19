@@ -9,8 +9,8 @@ export function ScheduleItem({ schedule }) {
 
     return (
         <li className={`flex ${isDeleting ? 'opacity-25' : 'opacity-100'}`}>
-            {new Date(schedule.date).toLocaleDateString()}
-            <fetcher.Form method="post">
+            {new Date(schedule.date).toLocaleDateString()} {schedule.name}
+            <fetcher.Form method="post" action={`/schedules/${schedule.id}`}>
                 <input type="hidden" name="scheduleId" value={schedule.id}></input>
                 <button type="submit" name="_action" value="delete_schedule"
                     className="rounded bg-rose-100 ml-5 px-1 py-1 text-xs font-semibold text-rose-800 shadow-sm hover:bg-rose-200">{isDeleting ? 'deleting...' : 'delete'}</button>
@@ -32,8 +32,8 @@ export function AddSchedule({ todoId }) {
 
     return (
         <fetcher.Form method="post" ref={formRef}>
-            <input type="hidden" name="todoId" value={todoId}></input>
-            <input type="date" name="date"></input>
+            <input  type="hidden" name="todoId" value={todoId}></input>
+            <input  type="date" name="date"></input>
             <button
                 disabled={isAdding}
                 className="disabled:opacity-25 rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50 active:bg-slate-500"
