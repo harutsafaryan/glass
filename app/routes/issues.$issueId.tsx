@@ -2,7 +2,7 @@ import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, json, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
-import { deleteIssue, getIssueById } from "~/models/issues.server";
+import { deleteIssue, fixgIssue, getIssueById } from "~/models/issues.server";
 import { requireUser } from "~/session.server";
 
 
@@ -21,7 +21,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   await requireUser(request);
   const formaData = request.formData();
   const issueId = (await formaData).get("issueId") as string;
-  await deleteIssue(issueId);
+  await fixgIssue(issueId);
   return null;
 };
 

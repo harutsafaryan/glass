@@ -32,9 +32,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const notifications = (await getNotifications()).filter(n => n.machineId === machineId);
     const issues = (await getIssues()).filter(n => n.machineId === machineId);
 
-    // const schedules = await getScheduleByTodoId(todoId);
-    // const notifications = (await getNotificationsByUser(userId)).filter(n => n.todoId === todoId);
-
     return json({ machine, checks, schedules, notifications, issues });
 }
 export async function action() {

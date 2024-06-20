@@ -8,7 +8,7 @@ export async function getMachines() {
       active: true
     },
     include: {
-      issues : true
+      issues : true,
   }
   })
 }
