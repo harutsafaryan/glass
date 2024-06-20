@@ -7,15 +7,18 @@ import CheckList from "~/components/ChecksList";
 import { getChecksByMachineId } from "~/models/checks.server";
 import { getMachineById } from "~/models/machines.server";
 import { requireUser } from "~/session.server";
+import { ScheduleItem } from "~/components/Schedule";
 
 import NewCheckPage from "./checks.new";
+import NewIssuePage from "./issues.new";
 import NewSchedulePage from "./schedules.new";
 import NewNotificationPage from "./notifications.new";
 import { getNotifications } from "~/models/notifications.server";
 import NotificationSlider from "~/components/NotificationSlider";
 import { NotificationItem } from "~/components/Notification";
 import { getSchedules } from "~/models/schedule.server";
-import { ScheduleItem } from "~/components/Schedule";
+import { IssueItem } from "~/components/Issue";
+import { getIssues } from "~/models/issues.server";
 
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -27,11 +30,12 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const checks = await getChecksByMachineId(machineId);
     const schedules = (await getSchedules()).filter(s => s.machineId === machineId);
     const notifications = (await getNotifications()).filter(n => n.machineId === machineId);
+    const issues = (await getIssues()).filter(n => n.machineId === machineId);
 
     // const schedules = await getScheduleByTodoId(todoId);
     // const notifications = (await getNotificationsByUser(userId)).filter(n => n.todoId === todoId);
 
-    return json({ machine, checks, schedules, notifications });
+    return json({ machine, checks, schedules, notifications, issues });
 }
 export async function action() {
     console.log('action');
@@ -40,7 +44,7 @@ export async function action() {
 
 export default function MachinePage() {
 
-    const { machine, checks, schedules, notifications } = useLoaderData<typeof loader>();
+    const { machine, checks, schedules, notifications, issues } = useLoaderData<typeof loader>();
 
     if (!machine)
         return null;
@@ -71,6 +75,10 @@ export default function MachinePage() {
                 <ul className="space-y-1">
                     {notifications.map(notification => <NotificationItem notification={notification} key={notification.id} />)}
                 </ul>
+            </Accordion>
+            <Accordion title="Issues">
+                <NewIssuePage refId={machine.id}/>
+                {issues.map(issue => <IssueItem issue={issue} key={issue.id} />)}
             </Accordion>
         </div>
     )

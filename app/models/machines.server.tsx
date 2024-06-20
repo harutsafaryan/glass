@@ -6,7 +6,10 @@ export async function getMachines() {
   return await prisma.machine.findMany({
     where: {
       active: true
-    }
+    },
+    include: {
+      issues : true
+  }
   })
 }
 

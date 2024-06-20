@@ -138,7 +138,7 @@ model Machine {
   notifications Notification[]
   checks        Check[]
   schedules     Schedule[]
-  Issue         Issue[]
+  issues        Issue[]
 }
 
 model Schedule {
@@ -178,8 +178,8 @@ model Notification {
 }
 
 model Issue {
-  id   String @id @default(uuid())
-  name String
+  id     String      @id @default(uuid())
+  name   String
   status IssueStatus @default(OPEN)
 
   createdAt DateTime @default(now())
@@ -190,7 +190,7 @@ model Issue {
   userId    String
 
   machine Machine? @relation(fields: [machineId], references: [id])
-  user    User    @relation(fields: [userId], references: [id])
+  user    User     @relation(fields: [userId], references: [id])
 }
 
 enum Role {

@@ -1,3 +1,4 @@
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from "@remix-run/react";
 
 interface MachineProp {
@@ -8,6 +9,7 @@ interface MachineProp {
         manufacturer: string | null,
         serialNumber: string | null
         department: string | null
+        issues: []
     }[]
 }
 
@@ -38,6 +40,9 @@ export default function MachinesList({ machines }: MachineProp) {
                                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                         Department
                                     </th>
+                                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                        More
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
@@ -48,6 +53,11 @@ export default function MachinesList({ machines }: MachineProp) {
                                         <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.manufacturer}</td>
                                         <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.serialNumber}</td>
                                         <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.department}</td>
+                                        <td className="whitespace-nowrap px-3 py-1 text-sm">
+                                            {machine.issues.length > 0
+                                                ?  <ExclamationTriangleIcon className="size-6 text-red-600" />
+                                                : null}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -58,3 +68,4 @@ export default function MachinesList({ machines }: MachineProp) {
         </div>
     )
 }
+

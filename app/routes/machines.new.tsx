@@ -2,6 +2,7 @@ import { Departmnet } from "@prisma/client";
 import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+
 import { createMachine } from "~/models/machines.server";
 import { requireUserId } from "~/session.server";
 
