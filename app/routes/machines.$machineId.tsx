@@ -4,21 +4,22 @@ import invariant from "tiny-invariant";
 
 import Accordion from "~/components/Accordion";
 import CheckList from "~/components/ChecksList";
-import { getChecksByMachineId } from "~/models/checks.server";
-import { getMachineById } from "~/models/machines.server";
-import { requireUser } from "~/session.server";
+import { IssueItem } from "~/components/Issue";
+import { NotificationItem } from "~/components/Notification";
+import NotificationSlider from "~/components/NotificationSlider";
 import { ScheduleItem } from "~/components/Schedule";
+import { getChecksByMachineId } from "~/models/checks.server";
+import { getIssues } from "~/models/issues.server";
+import { getMachineById } from "~/models/machines.server";
+import { getNotifications } from "~/models/notifications.server";
+import { getSchedules } from "~/models/schedule.server";
+import { requireUser } from "~/session.server";
 
 import NewCheckPage from "./checks.new";
 import NewIssuePage from "./issues.new";
-import NewSchedulePage from "./schedules.new";
 import NewNotificationPage from "./notifications.new";
-import { getNotifications } from "~/models/notifications.server";
-import NotificationSlider from "~/components/NotificationSlider";
-import { NotificationItem } from "~/components/Notification";
-import { getSchedules } from "~/models/schedule.server";
-import { IssueItem } from "~/components/Issue";
-import { getIssues } from "~/models/issues.server";
+import NewSchedulePage from "./schedules.new";
+
 
 
 export async function loader({ params, request }: LoaderFunctionArgs) {

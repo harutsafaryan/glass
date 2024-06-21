@@ -207,8 +207,6 @@ enum Status {
 
 enum IssueStatus {
   OPEN
-  BLOCKER
-  COMPLETED
   CLOSED
 }
 

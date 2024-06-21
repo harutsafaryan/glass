@@ -26,7 +26,7 @@ interface prop {
 
 export default function NewSchedulePage({ refId }: prop) {
     const fetcher = useFetcher();
-    const formRef = useRef();
+    const formRef = useRef<HTMLFormElement>(null);
     const isAdding = fetcher.state === "submitting";
 
     useEffect(() => {

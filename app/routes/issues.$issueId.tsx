@@ -2,7 +2,7 @@ import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, json, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
-import { deleteIssue, fixgIssue, getIssueById } from "~/models/issues.server";
+import { fixgIssue, getIssueById } from "~/models/issues.server";
 import { requireUser } from "~/session.server";
 
 

@@ -9,7 +9,10 @@ interface MachineProp {
         manufacturer: string | null,
         serialNumber: string | null
         department: string | null
-        issues: []
+        issues: {
+            status : string
+            active : boolean
+        }[]
     }[]
 }
 
@@ -54,7 +57,7 @@ export default function MachinesList({ machines }: MachineProp) {
                                         <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.serialNumber}</td>
                                         <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.department}</td>
                                         <td className="whitespace-nowrap px-3 py-1 text-sm">
-                                            {machine.issues.filter(i => i.active).length > 0
+                                            {machine.issues.filter(i => i.status === 'OPEN').length > 0
                                                 ?  <ExclamationTriangleIcon className="size-6 text-red-600" />
                                                 : null}
                                         </td>

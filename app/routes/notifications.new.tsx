@@ -24,15 +24,16 @@ interface prop {
 }
 
 export default function NewNotificationPage({refId} : prop) {
-    const name = useRef();
-    const formRef = useRef();
+    const name = useRef<HTMLInputElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
     const fetcher = useFetcher();
     const isAdding = fetcher.state === "submitting";
 
     useEffect(() => {
-        if (!isAdding)
-        formRef.current?.reset();
-        name.current?.focus();
+        if (!isAdding) {
+            formRef.current?.reset();
+            name.current?.focus();
+        }
     }, [isAdding])
 
     return (

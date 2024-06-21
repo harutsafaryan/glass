@@ -4,6 +4,9 @@ import { prisma } from "~/db.server";
 
 export async function getIssues() {
     return await prisma.issue.findMany({
+        where : {
+            active : true
+        },
         orderBy : {
             createdAt : "desc"
         }
@@ -11,7 +14,7 @@ export async function getIssues() {
 }
 
 export async function getIssueById(id: Issue['id']) {
-    return await prisma.issue.findMany({
+    return await prisma.issue.findUnique({
         where: {
             id,
             active: true
@@ -22,7 +25,7 @@ export async function getIssueById(id: Issue['id']) {
 export async function fixgIssue(id: Issue['id']) {
     return await prisma.issue.update({
         where: { id },
-        data: { active: false }
+        data: { status : "CLOSED" }
     });
 }
 
