@@ -110,11 +110,17 @@ export async function createCheck({ status, value, text, comment, todoId, userId
             value,
             text,
             comment,
+            state : "CLOSED",
             todoId : todo?.id ?? null,
             machineId : machine?.id ?? null,
             userId
         }
     })
+}
+
+
+export async function scheduleCheck(params:type) {
+    
 }
 
 export async function lastAction() {

@@ -56,6 +56,7 @@ model Check {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   active    Boolean  @default(true)
+  state     State    @default(OPEN)
 
   userId    String
   todoId    String?
@@ -178,9 +179,9 @@ model Notification {
 }
 
 model Issue {
-  id     String      @id @default(uuid())
-  name   String
-  status IssueStatus @default(OPEN)
+  id    String @id @default(uuid())
+  name  String
+  state State  @default(OPEN)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -205,7 +206,7 @@ enum Status {
   FAIL
 }
 
-enum IssueStatus {
+enum State {
   OPEN
   CLOSED
 }
