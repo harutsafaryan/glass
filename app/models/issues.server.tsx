@@ -25,7 +25,7 @@ export async function getIssueById(id: Issue['id']) {
 export async function fixgIssue(id: Issue['id']) {
     return await prisma.issue.update({
         where: { id },
-        data: { status : "CLOSED" }
+        data: { state : "CLOSED" }
     });
 }
 

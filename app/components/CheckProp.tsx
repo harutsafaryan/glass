@@ -1,6 +1,8 @@
 export interface CheckProp {
     checks: {
         id: string;
+        name : string;
+        state : string,
         status: string;
         value: number | null;
         text: string | null;

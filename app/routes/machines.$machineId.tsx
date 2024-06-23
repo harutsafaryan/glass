@@ -44,6 +44,13 @@ export default function MachinePage() {
 
     const { machine, checks, schedules, notifications, issues } = useLoaderData<typeof loader>();
 
+    const today = new Date();
+    const closedCheks = checks.filter(c => c.state === 'CLOSED').length;
+    const openCheks = checks.filter(c => c.state === 'OPEN').length;
+    const overdueChecks = checks.filter(c => c.state === "OPEN" &&  new Date(c?.scheduledAt ?? 0).getTime() < today.getTime()).length;
+
+    console.log('overdue: ', overdueChecks);
+
     if (!machine)
         return null;
 
@@ -54,10 +61,14 @@ export default function MachinePage() {
             <NotificationSlider notifications={notifications} />
 
             <Accordion title="Add check">
-                <NewCheckPage id={machine.id} />
+                <NewCheckPage refId={machine.id} scheduled={false} />
             </Accordion>
 
-            <Accordion title={checks.length === 0 ? 'There is no any check' : checks.length === 1 ? 'There is only 1 check' : ` Thera are ${checks.length} checks`}>
+            <Accordion title="Schedule check">
+                <NewCheckPage refId={machine.id} scheduled={true} />
+            </Accordion>
+
+            <Accordion title={`cheks: ${closedCheks}, upcoming cheks: ${openCheks} overdue checks: ${overdueChecks}`}>
                 <CheckList checks={checks} />
             </Accordion>
 

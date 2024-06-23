@@ -37,6 +37,12 @@ export default function CheckList({ checks }: CheckProp) {
                                                 Todo Title
                                             </th> : null
                                         }
+                                         <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                            Name
+                                        </th>
+                                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                            State
+                                        </th>
                                         <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                             Status
                                         </th>
@@ -66,6 +72,8 @@ export default function CheckList({ checks }: CheckProp) {
                                             )}
                                         >
                                             {isTododExist ? <td className="whitespace-nowrap px-3 py-1 text-sm">{check?.todo?.title}</td> : null}
+                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.name}</td>
+                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.state}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.status}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.value}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.text}</td>

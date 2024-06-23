@@ -10,7 +10,7 @@ interface MachineProp {
         serialNumber: string | null
         department: string | null
         issues: {
-            status : string
+            state : string
             active : boolean
         }[]
     }[]
@@ -18,6 +18,7 @@ interface MachineProp {
 
 export default function MachinesList({ machines }: MachineProp) {
     const navigate = useNavigate();
+    console.log('m: ', machines)
 
     return (
         <div className="mt-8 flow-root">
@@ -57,7 +58,7 @@ export default function MachinesList({ machines }: MachineProp) {
                                         <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.serialNumber}</td>
                                         <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.department}</td>
                                         <td className="whitespace-nowrap px-3 py-1 text-sm">
-                                            {machine.issues.filter(i => i.status === 'OPEN').length > 0
+                                            {machine.issues.filter(i => i.state === 'OPEN').length > 0
                                                 ?  <ExclamationTriangleIcon className="size-6 text-red-600" />
                                                 : null}
                                         </td>

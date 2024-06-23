@@ -4,14 +4,14 @@ interface prop {
     issue : {
         id : string,
         name : string,
-        status : string
+        state : string
     }
 }
 
 export function IssueItem({ issue } : prop) {
     const fetcher = useFetcher();
     const isDeleting = fetcher.state === "submitting";
-    const isFixed = issue.status === 'CLOSED';
+    const isFixed = issue.state === 'CLOSED';
 
     return (
         <li className={`flex ${isFixed ? 'line-through opacity-60' : ''} ${isDeleting ? 'opacity-25' : 'opacity-100'}`}>

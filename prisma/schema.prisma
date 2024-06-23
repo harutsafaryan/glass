@@ -48,10 +48,13 @@ model Note {
 
 model Check {
   id      String  @id @default(uuid())
-  status  Status  @default(UNKNOWN)
+  
+  name    String
   value   Float?
   text    String?
   comment String?
+  status  Status  @default(UNKNOWN)
+  scheduledAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

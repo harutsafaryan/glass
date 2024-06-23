@@ -78,11 +78,14 @@ export async function getChecksByMachineId(machineId: Machine['id']) {
         where: { machineId },
         select: {
             id: true,
+            name : true,
+            state : true,
             value: true,
             text: true,
             comment: true,
             status: true,
             createdAt: true,
+            scheduledAt : true,
             year: true,
             month: true,
             day: true,
@@ -97,15 +100,17 @@ export async function getChecksByMachineId(machineId: Machine['id']) {
 
 
 
-export async function createCheck({ status, value, text, comment, todoId, userId }: Pick<Check, 'status' | 'value' | 'text' | 'comment' | 'todoId' | 'userId'>) {
-    const todo = await prisma.todo.findUnique({where : {id : todoId}});
-    const machine = await prisma.machine.findUnique({where : {id : todoId}});
+export async function createCheck({ name, status, value, text, comment, refId, userId }: Pick<Check, 'name' | 'status' | 'value' | 'text' | 'comment' | 'todoId' | 'userId'>) {
+   console.log('1')
+    const todo = await prisma.todo.findUnique({where : {id : refId}});
+    const machine = await prisma.machine.findUnique({where : {id : refId}});
     
     if (!todo && !machine)
         return null;
 
     return await prisma.check.create({
         data: {
+            name,
             status,
             value,
             text,
@@ -118,9 +123,18 @@ export async function createCheck({ status, value, text, comment, todoId, userId
     })
 }
 
-
-export async function scheduleCheck(params:type) {
+export async function scheduleCheck(name : string, date : string, refId : string, userId : string) {
+   console.log('2')
     
+    return await prisma.check.create({
+        data : {
+            name,
+            scheduledAt : new Date(date),
+            state : "OPEN",
+            machineId : refId,
+            userId
+        }
+    })
 }
 
 export async function lastAction() {
