@@ -37,7 +37,9 @@ export async function action({ params, request }: ActionFunctionArgs) {
         await completeCheck(checkId);
     }
 
-    await deleteCheck(checkId);
+    if (_action === "delete") {   
+        await deleteCheck(checkId);
+    }
 
     return redirect('/checks');
 }
@@ -53,15 +55,6 @@ export default function CheckPage() {
 
             <p className="text-lg font-bold underline underline-offset-4">Check</p>
             <CheckInfo check={check} />
-            <Form method="post">
-            <input type="hidden" name="_action" value="delete"/>
-                <button
-                    type="submit"
-                    className="mt-3 rounded bg-red-600 px-4 py-1 text-white hover:bg-red-700 focus:bg-blue-400"
-                >
-                    Delete
-                </button>
-            </Form>
         </div>
     )
 }

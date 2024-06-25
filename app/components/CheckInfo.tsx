@@ -3,7 +3,7 @@ import { Form } from "@remix-run/react";
 
 interface Prop {
     check: {
-        id : string,
+        id: string,
         value: number | null;
         text: string | null;
         comment: string | null;
@@ -67,14 +67,21 @@ export default function CheckInfo({ check }: Prop) {
     else { //state === 'OPEN'
         return (
             <Form method="post" action={`/check/${check.id}`}>
-                <input type="hidden" name="id" value={check.id}/>
-                <input type="hidden" name="_action" value="complete"/>
-                <button
-                    type="submit"
-                    className="mt-3 rounded bg-green-600 px-4 py-1 text-white hover:bg-green-700 focus:bg-blue-400"
-                >
-                    Complete
-                </button>
+                <input type="hidden" name="id" value={check.id} />
+                <div className="flex space-x-2">
+                    <button
+                        type="submit" name="_action" value="complete"
+                        className="mt-3 rounded bg-green-600 px-4 py-1 text-white hover:bg-green-700 focus:bg-blue-400"
+                    >
+                        Complete
+                    </button>
+                    <button
+                        type="submit" name="_action" value="delete"
+                        className="mt-3 rounded bg-red-600 px-4 py-1 text-white hover:bg-red-700 focus:bg-blue-400"
+                    >
+                        Delete
+                    </button>
+                </div>
             </Form>
         )
     }

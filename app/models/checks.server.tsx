@@ -86,7 +86,10 @@ export async function getChecksByTodoId(todoId: Todo['id']) {
 
 export async function getChecksByMachineId(machineId: Machine['id']) {
     return await prisma.check.findMany({
-        where: { machineId },
+        where: { 
+            machineId,
+            active : true
+         },
         select: {
             id: true,
             name : true,
