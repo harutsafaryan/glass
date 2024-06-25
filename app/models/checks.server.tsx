@@ -33,6 +33,16 @@ export async function deleteCheck(id: Check['id']) {
     })
 }
 
+export async function completeCheck(id : string) {
+    await prisma.check.update({
+        where : {id},
+        data : {
+            state : "CLOSED",
+            comment : "completed"
+        }
+    })
+}
+
 export async function getCheckById(id: Check['id']) {
     return await prisma.check.findFirst({
         where: {
@@ -46,6 +56,7 @@ export async function getCheckById(id: Check['id']) {
             comment: true,
             status: true,
             createdAt: true,
+            state : true,
             user: { select: { name: true } },
             todo: { select: { id: true } }
         }
