@@ -37,20 +37,14 @@ export default function CheckList({ checks }: CheckProp) {
                                                 Todo Title
                                             </th> : null
                                         }
-                                         <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                            Name
-                                        </th>
                                         <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                            State
+                                            Name
                                         </th>
                                         <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                             Status
                                         </th>
                                         <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                            Numeric value
-                                        </th>
-                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                            Text value
+                                            State
                                         </th>
                                         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Created At
@@ -67,16 +61,14 @@ export default function CheckList({ checks }: CheckProp) {
                                     {checks.map((check) => (
                                         <tr key={check.id}
                                             onClick={() => navigate(`/check/${check.id}`)}
-                                            className={classNames(`${check.status === 'SUCCESS' ? 'bg-green-200' : check.status === 'FAIL' ? 'bg-rose-200' : null}`,
+                                            className={classNames(`${check.status === 'SUCCESS' ? 'bg-green-200' : check.status === 'WARNING' ? 'bg-yellow-200' : check.status === 'ERROR' ? 'bg-red-200' : null}`,
                                                 'text-gray-900 hover:text-red-600'
                                             )}
                                         >
                                             {isTododExist ? <td className="whitespace-nowrap px-3 py-1 text-sm">{check?.todo?.title}</td> : null}
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.name}</td>
+                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.status ?? getDays(check?.scheduledAt)}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.state}</td>
-                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.status}</td>
-                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.value}</td>
-                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.text}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{new Date(check.createdAt).toLocaleString()}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.user.name}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm text-ellipsis overflow-hidden">{check.comment}</td>
@@ -90,4 +82,15 @@ export default function CheckList({ checks }: CheckProp) {
             </div>
         </div>
     )
+}
+
+const getDays = (scheduledDate: string | null): number => {
+    if (!scheduledDate)
+        return "N/A";
+
+    const thiksPerDay = 86_400_000;
+    const today = new Date().getTime();
+    const scheduled = new Date(scheduledDate).getTime();
+    const delta = Math.floor((scheduled - today) / thiksPerDay);
+    return delta;
 }

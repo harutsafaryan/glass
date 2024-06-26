@@ -19,22 +19,12 @@ export async function action({ request }: ActionFunctionArgs) {
     const _action = formData.get('_action');
 
     if (_action === 'create_check') {
-        console.log("action: ", _action);
-        const textValue = formData.get('text') as string;
-        const floatValue = formData.get('value') as string;
         const status = formData.get('status') as StatusKeys;
-
-        const value = floatValue ? parseFloat(floatValue) : null;
-        const text = textValue !== '' ? textValue : null;
-
-        await createCheck({ name, status, value, text, comment, refId, userId });
+        await createCheck({ name, status, comment, refId, userId });
     }
 
     if (_action === 'schedule_check') {
-        console.log("action: ", _action);
-
         const date = formData.get('date') as string;
-
         await scheduleCheck(name, date, refId, userId)
     }
 
@@ -51,8 +41,6 @@ export default function NewCheckPage({ refId, scheduled }: prop) {
 
     const nameRef = useRef<HTMLInputElement>(null);
     const commentRef = useRef<HTMLTextAreaElement>(null);
-    const valueRef = useRef<HTMLInputElement>(null);
-    const textRef = useRef<HTMLInputElement>(null);
     const dateRef = useRef<HTMLInputElement>(null);
 
 
@@ -63,6 +51,19 @@ export default function NewCheckPage({ refId, scheduled }: prop) {
                 <p>{scheduled ? 'schedule new check' : 'add new check'}</p>
                 <input type="hidden" name="refId" value={refId}></input>
                 <input type="hidden" name="_action" value={scheduled ? "schedule_check" : "create_check"}></input>
+
+                <div>
+                    <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+                        <span>Name </span>
+                        <input
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-96 sm:text-sm sm:leading-6"
+                            ref={nameRef}
+                            required
+                            name="name"
+                            type="text"
+                        ></input>
+                    </label>
+                </div>
 
                 {!scheduled
                     ? <div>
@@ -84,48 +85,7 @@ export default function NewCheckPage({ refId, scheduled }: prop) {
                     : null
                 }
 
-                <div>
-                    <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                        <span>Name </span>
-                        <input
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-96 sm:text-sm sm:leading-6"
-                            ref={nameRef}
-                            required
-                            name="name"
-                            type="text"
-                        ></input>
-                    </label>
-                </div>
 
-                {!scheduled
-                    ? <div>
-                        <label htmlFor="value" className="block text-sm font-medium leading-6 text-gray-900">
-                            <span>Numeric value </span>
-                            <input
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-96 sm:text-sm sm:leading-6"
-                                ref={valueRef}
-                                name="value"
-                                type="number" step=".01"
-                            ></input>
-                        </label>
-                    </div>
-                    : null
-                }
-
-                {!scheduled
-                    ? <div>
-                        <label htmlFor="text" className="block text-sm font-medium leading-6 text-gray-900">
-                            <span>Any value </span>
-                            <input
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-96 sm:text-sm sm:leading-6"
-                                ref={textRef}
-                                name="text"
-                                type="text"
-                            ></input>
-                        </label>
-                    </div>
-                    : null
-                }
 
                 {scheduled
                     ? <div>

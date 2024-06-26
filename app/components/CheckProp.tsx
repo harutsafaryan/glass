@@ -8,6 +8,7 @@ export interface CheckProp {
         text: string | null;
         comment: string | null;
         createdAt: string;
+        scheduledAt : string | null,
         year: number;
         month: number;
         day: number;

@@ -53,7 +53,7 @@ model Check {
   value   Float?
   text    String?
   comment String?
-  status  Status  @default(UNKNOWN)
+  status  Status?
   scheduledAt DateTime?
 
   createdAt DateTime @default(now())
@@ -203,10 +203,9 @@ enum Role {
 }
 
 enum Status {
-  UNKNOWN
-  CHECKED
   SUCCESS
-  FAIL
+  WARNING
+  ERROR
 }
 
 enum State {
