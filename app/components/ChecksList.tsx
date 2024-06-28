@@ -3,9 +3,9 @@ import { useNavigate } from "@remix-run/react";
 
 import { classNames } from "~/utility/helper";
 
-import { CheckProp } from "./CheckProp";
+import { CheckProp, ChecksProp } from "./CheckProp";
 
-export default function CheckList({ checks }: CheckProp) {
+export default function CheckList({ checks }: ChecksProp) {
     const navigate = useNavigate();
 
     if (checks === undefined)
@@ -67,7 +67,7 @@ export default function CheckList({ checks }: CheckProp) {
                                         >
                                             {isTododExist ? <td className="whitespace-nowrap px-3 py-1 text-sm">{check?.todo?.title}</td> : null}
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.name}</td>
-                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.status ?? getDays(check?.scheduledAt)}</td>
+                                            {days({check})}
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.state}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{new Date(check.createdAt).toLocaleString()}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.user.name}</td>
@@ -84,13 +84,21 @@ export default function CheckList({ checks }: CheckProp) {
     )
 }
 
-const getDays = (scheduledDate: string | null): number => {
+const getDays = (scheduledDate: string | null): number | undefined => {
     if (!scheduledDate)
-        return "N/A";
+        return undefined;
 
     const thiksPerDay = 86_400_000;
-    const today = new Date().getTime();
+    const today = new Date()
+    const todayTiks = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
     const scheduled = new Date(scheduledDate).getTime();
-    const delta = Math.floor((scheduled - today) / thiksPerDay);
+    const delta = Math.floor((scheduled - todayTiks) / thiksPerDay);
     return delta;
+}
+
+function days({check} : CheckProp) {
+    const daysCount = getDays(check?.scheduledAt);
+    return (
+        <td className={`whitespace-nowrap px-3 py-1 text-sm ${daysCount && daysCount < 3 ? 'inline-flex items-center rounded-md bg-red-200 ring-1 ring-inset ring-red-600/20' : null}`}>{check.status ?? daysCount}</td>
+    )
 }
