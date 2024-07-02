@@ -61,7 +61,7 @@ export default function CheckList({ checks }: ChecksProp) {
                                     {checks.map((check) => (
                                         <tr key={check.id}
                                             onClick={() => navigate(`/check/${check.id}`)}
-                                            className={classNames(`${check.status === 'SUCCESS' ? 'bg-green-200' : check.status === 'WARNING' ? 'bg-yellow-200' : check.status === 'ERROR' ? 'bg-red-200' : null}`,
+                                            className={classNames(`${check.status === 'SUCCESS' ? 'bg-green-300' : check.status === 'WARNING' ? 'bg-yellow-300' : check.status === 'ERROR' ? 'bg-red-300' : null}`,
                                                 'text-gray-900 hover:text-red-600'
                                             )}
                                         >

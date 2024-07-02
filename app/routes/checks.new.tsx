@@ -1,10 +1,11 @@
 import { Status } from "@prisma/client";
 import { ActionFunctionArgs } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { createCheck, scheduleCheck } from "~/models/checks.server";
 import { requireUserId } from "~/session.server";
+import { classNames } from "~/utility/helper";
 
 const statuses = Object.keys(Status);
 type StatusKeys = keyof typeof Status;
@@ -37,6 +38,7 @@ interface prop {
 }
 
 export default function NewCheckPage({ refId, scheduled }: prop) {
+    const [activeStatus, setactiveStatus] = useState('SUCCESS');
     const fetcher = useFetcher()
 
     const nameRef = useRef<HTMLInputElement>(null);
@@ -68,18 +70,23 @@ export default function NewCheckPage({ refId, scheduled }: prop) {
                 {!scheduled
                     ? <div>
                         <label htmlFor="status" className="block text-sm font-medium leading-6 text-gray-900">
-                            <span>Status</span>
-                            <select name="status">
+                            <div className="flex space-x-3 mt-2 mb-2">
+                                <input type="hidden" name="status" value={activeStatus}></input>
                                 {
                                     statuses.map((status, index) => (
-                                        <option
+                                        <button
+                                            type="button"
+                                            onClick={() => setactiveStatus(status)}
+                                            className={classNames('rounded px-2 py-1 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300',
+                                                `${status === 'SUCCESS' ? 'bg-green-300' : status === 'ERROR' ? 'bg-red-300' : status === 'WARNING' ? 'bg-yellow-300' : 'bg-white'}`,
+                                                `${activeStatus === status ? 'shadow-inner' : 'shadow-lg opacity-25'}`
+                                            )}
                                             key={index}
-                                            value={status}
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-96 sm:text-sm sm:leading-6"
-                                        >{status}</option>
+                                        >{status}</button>
                                     ))
                                 }
-                            </select>
+                            </div>
+
                         </label>
                     </div>
                     : null
