@@ -1,11 +1,9 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, json, redirect } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
 import CheckInfo from "~/components/CheckInfo";
-import TodoInfo from "~/components/TodoInfo";
 import { completeCheck, deleteCheck, getCheckById } from "~/models/checks.server";
-import { getTodoById } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -14,7 +12,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
     
     const checkId = params.checkId
-    console.log('checkId: ', checkId)
     const check = await getCheckById(checkId);
 
     if (!check) {

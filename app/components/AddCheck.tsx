@@ -5,8 +5,13 @@ import { useRef } from "react";
 const statuses = Object.keys(Status);
 // type StatusKeys = keyof typeof Status;
 
+interface props {
+    todo : {
+        id : string
+    }
+}
 
-export default function AddCheck({todo}) {
+export default function AddCheck({todo} : props) {
     const fetcher = useFetcher();
 
     const commentRef = useRef<HTMLTextAreaElement>(null);

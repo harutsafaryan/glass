@@ -7,7 +7,7 @@ interface Prop {
         value: number | null;
         text: string | null;
         comment: string | null;
-        status: string;
+        status: Status | null;
         createdAt: string;
         state: string,
         user: {
@@ -15,7 +15,7 @@ interface Prop {
         },
         todo: {
             id: string
-        }
+        } | null
     }
 }
 
@@ -24,11 +24,11 @@ export default function CheckInfo({ check }: Prop) {
     if (check === null)
         return;
 
-    const textColor = check.status === Status.CHECKED
+    const textColor = check.status === Status.WARNING
         ? 'bg-yellow-300'
         : check.status === Status.SUCCESS
             ? 'bg-green-500'
-            : check.status === Status.FAIL
+            : check.status === Status.ERROR
                 ? 'bg-red-400'
                 : ''
 

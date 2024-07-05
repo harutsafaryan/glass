@@ -57,3 +57,28 @@ export default function TodosPage() {
         </div>
     )
 }
+
+interface TodoProps {
+    todo: {
+        title: string,
+        definition: string | null,
+        location: string | null,
+        criteria: string | null,
+        periodic: string
+        reference: {
+            name: string,
+        }
+        schedules: {
+            id: string,
+            todoId: string,
+            date: string,
+        }[] // order by date and return earliest date [1]
+        checks: {
+            id: string,
+            createdAt: string
+        }[]//
+        notifications: {
+            name: string
+        }[]
+    }
+}
