@@ -21,7 +21,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
     if (_action === 'create_check') {
         const status = formData.get('status') as StatusKeys;
-        await createCheck({ name, status, comment, refId, userId });
+        await createCheck(name, status, comment, refId, userId);
     }
 
     if (_action === 'schedule_check') {

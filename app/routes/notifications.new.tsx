@@ -38,7 +38,7 @@ export default function NewNotificationPage({refId} : prop) {
 
     return (
         <fetcher.Form method="post" ref={formRef} action="/notifications/new">
-            <input type="hidden" name="todoId" value={refId}></input>
+            <input type="hidden" name="refId" value={refId}></input>
             <input type="text" name="notification_name" ref={name}></input>
             <button
                 disabled={isAdding}

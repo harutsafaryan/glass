@@ -14,6 +14,7 @@ import { createNotification, deleteNotification, getNotificationsByUser } from "
 import { createSchedule, deleteSchedule, getScheduleByTodoId } from "~/models/schedule.server";
 import { getTodoById, updatePeriodByTodoId } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
+
 import NewCheckPage from "./checks.new";
 
 const statuses = Object.keys(Status);
@@ -37,17 +38,18 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
 export async function action({ request }: ActionFunctionArgs) {
     const formData = await request.formData();
+    const userId = await requireUserId(request);
 
     const { _action, ...values } = Object.fromEntries(formData);
 
     if (_action === "add_schedule") {
         const date = values['date'] as string;
         const d = new Date(date);
-        const todoId = values['todoId'] as string;
+        const refId = values['refId'] as string;
         try {
         await new Promise(resolve => setTimeout(resolve, 1000))
 
-            await createSchedule(todoId, d);
+            await createSchedule(refId, d, 'test', userId);
         }
         catch (error) {
             console.log("error: ", error)
@@ -62,12 +64,12 @@ export async function action({ request }: ActionFunctionArgs) {
     }
 
     if (_action === "new_notification") {
-        const todoId = values['todoId'] as string;
+        const refid = values['refid'] as string;
         const name = values['notification_name'] as string;
         const userId = await requireUserId(request);
 
         await new Promise(resolve => setTimeout(resolve, 1000))
-        await createNotification({ userId, todoId, name })
+        await createNotification(userId, refid, name)
     }
 
     if (_action === "delete_notification") {

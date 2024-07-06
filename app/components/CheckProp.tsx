@@ -1,3 +1,5 @@
+import { Status } from "@prisma/client";
+
 export interface CheckProp {
     check: {
         id: string;
@@ -20,12 +22,13 @@ export interface CheckProp {
         };
     };
 }
+
 export interface ChecksProp {
     checks: {
         id: string;
         name : string;
-        state : string,
-        status: string;
+        state : string;
+        status: Status | null;
         value: number | null;
         text: string | null;
         comment: string | null;
@@ -35,8 +38,8 @@ export interface ChecksProp {
         month: number;
         day: number;
         todo: {
-            title: string;
-        };
+            title: string
+        } | null;
         user: {
             name: string;
         };

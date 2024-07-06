@@ -24,10 +24,10 @@ export async function getNotificationsById(id : Notification['id']) {
     })
 }
 
-export async function createNotification({userId, todoId, name} : Pick<Notification, 'userId' | 'todoId' | 'name'>) {
+export async function createNotification(userId : Notification['userId'], refId : string, name : Notification['name']) {
 
-    const todo = await prisma.todo.findUnique({ where: { id: todoId } });
-    const machine = await prisma.machine.findUnique({ where: { id: todoId } });
+    const todo = await prisma.todo.findUnique({ where: { id: refId } });
+    const machine = await prisma.machine.findUnique({ where: { id: refId } });
 
     if (!todo && !machine)
         return null;
