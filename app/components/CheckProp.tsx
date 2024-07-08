@@ -4,8 +4,8 @@ export interface CheckProp {
     check: {
         id: string;
         name : string;
-        state : string,
-        status: string;
+        state : string;
+        status: Status | null;
         value: number | null;
         text: string | null;
         comment: string | null;
@@ -15,8 +15,8 @@ export interface CheckProp {
         month: number;
         day: number;
         todo: {
-            title: string;
-        };
+            title: string
+        } | null;
         user: {
             name: string;
         };

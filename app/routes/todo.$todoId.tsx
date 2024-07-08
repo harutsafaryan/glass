@@ -102,7 +102,7 @@ export default function TodoInfoPage() {
             <hr className="my-4" />
 
             <Accordion title="Add check">
-                <NewCheckPage refId={todo.id}/>
+                <NewCheckPage refId={todo.id} scheduled={false}/>
             </Accordion>
 
             <Accordion title={checks.length === 0 ? 'There is no any check' : checks.length === 1 ? 'There is only 1 check' : ` Thera are ${checks.length} checks`}>

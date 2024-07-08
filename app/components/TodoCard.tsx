@@ -14,7 +14,7 @@ interface TodoProps {
         }
         schedules: {
             id: string,
-            todoId: string,
+            todoId: string | null,
             date: string,
         }[] // order by date and return earliest date [1]
         checks: {

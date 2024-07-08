@@ -14,7 +14,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const name = formData.get('notification_name') as string;
 
     await new Promise(resolve => setTimeout(resolve, 1000))
-    await createNotification({ userId, todoId, name })
+    await createNotification(userId, todoId, name)
 
   return null;
 };

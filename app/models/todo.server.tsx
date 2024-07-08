@@ -34,7 +34,7 @@ export async function getTodos(userId: User['id']) {
                 },
                 select : {
                     id: true,
-                    todo : true,
+                    todoId : true,
                     date : true
                 }
             },
