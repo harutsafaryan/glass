@@ -1,7 +1,8 @@
 import { Departmnet } from "@prisma/client";
-import { ActionFunctionArgs, json } from "@remix-run/node";
+import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+
 import { createMachine } from "~/models/machines.server";
 import { requireUserId } from "~/session.server";
 
@@ -59,7 +60,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
     await createMachine({name, year, manufacturer, serialNumber, department, userId});
 
-    return null;
+    return redirect('/machines');
 }
 
 export default function NewMachinePage() {

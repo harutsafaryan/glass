@@ -22,8 +22,9 @@ model User {
   checks        Check[]
   todos         Todo[]
   totifications Notification[]
-  machines  Machine[]
+  machines      Machine[]
   shedules      Schedule[]
+  issues        Issue[]
 }
 
 model Password {
@@ -47,14 +48,18 @@ model Note {
 
 model Check {
   id      String  @id @default(uuid())
-  status  Status  @default(UNKNOWN)
+  
+  name    String
   value   Float?
   text    String?
   comment String?
+  status  Status?
+  scheduledAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   active    Boolean  @default(true)
+  state     State    @default(OPEN)
 
   userId    String
   todoId    String?
@@ -137,11 +142,13 @@ model Machine {
   notifications Notification[]
   checks        Check[]
   schedules     Schedule[]
+  issues        Issue[]
 }
 
 model Schedule {
   id   String   @id @default(uuid())
   date DateTime
+  name String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -150,9 +157,10 @@ model Schedule {
   userId    String
   todoId    String?
   machineId String?
-  user User @relation(fields: [userId], references: [id])
-  todo      Todo?    @relation(fields: [todoId], references: [id])
-  machine   Machine? @relation(fields: [machineId], references: [id])
+
+  user    User     @relation(fields: [userId], references: [id])
+  todo    Todo?    @relation(fields: [todoId], references: [id])
+  machine Machine? @relation(fields: [machineId], references: [id])
 }
 
 model Notification {
@@ -173,16 +181,36 @@ model Notification {
   machine Machine? @relation(fields: [machineId], references: [id])
 }
 
+model Issue {
+  id    String @id @default(uuid())
+  name  String
+  state State  @default(OPEN)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  active    Boolean  @default(true)
+
+  machineId String?
+  userId    String
+
+  machine Machine? @relation(fields: [machineId], references: [id])
+  user    User     @relation(fields: [userId], references: [id])
+}
+
 enum Role {
   ADMIN
   USER
 }
 
 enum Status {
-  UNKNOWN
-  CHECKED
   SUCCESS
-  FAIL
+  WARNING
+  ERROR
+}
+
+enum State {
+  OPEN
+  CLOSED
 }
 
 enum Periodic {

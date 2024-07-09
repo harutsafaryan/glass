@@ -2,7 +2,7 @@ import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
 
-import { CheckProp } from "~/components/CheckProp";
+import { ChecksProp } from "~/components/CheckProp";
 import CheckList from "~/components/ChecksList";
 import MonthChange from "~/components/MonthChange";
 import { getChecksByMonth } from "~/models/checks.server";
@@ -122,7 +122,7 @@ export default function Calendar() {
 
 
 
-function getDays(month: string | null, year: number, {checks}: CheckProp) {
+function getDays(month: string | null, year: number, {checks}: ChecksProp) {
     const today = new Date();
     const todayMonth = today.getMonth();
     const todayDay = today.getDate();
@@ -158,7 +158,7 @@ function getDays(month: string | null, year: number, {checks}: CheckProp) {
             date: new Date(year, monthIndex, i),
             isCurrentMonth: i > 0 && i <= daysCount,
             isToday: i === todayDay && monthIndex === todayMonth,
-            checks: checks.filter(e => e.day === i).map(e => ({ id: e.id, name: e.todo.title }))
+            checks: checks.filter(e => e.day === i).map(e => ({ id: e.id, name: e.todo?.title }))
         })
     }
     return dates;

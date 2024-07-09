@@ -9,8 +9,19 @@ export async function getTodos(userId: User['id']) {
             active: true,
             // id : '6b1e2142-60b7-43d7-977d-b2abbd9cbe8c'
         },
+        select : {
+            title : true,
+            definition : true,
+            location : true,
+            criteria : true,
+            periodic : true
+        },
         include: {
-            reference: true,
+            reference: {
+                select : {
+                    name : true
+                }
+            },
             schedules: {
                 where: {
                     date: {
@@ -20,16 +31,28 @@ export async function getTodos(userId: User['id']) {
                 take: 1,
                 orderBy: {
                     date: "asc"
+                },
+                select : {
+                    id: true,
+                    todoId : true,
+                    date : true
                 }
             },
             checks: {
                 take: 1,
                 orderBy: {
                     createdAt: "desc"
+                },
+                select : {
+                    id : true,
+                    createdAt : true
                 }
             },
             notifications: {
-                where: { userId }
+                where: { userId },
+                select : {
+                    name : true
+                }
             }
         }
     })

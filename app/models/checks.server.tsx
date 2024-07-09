@@ -1,5 +1,5 @@
 
-import type { Check, Todo } from "@prisma/client";
+import type { Check, Machine, Todo } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 import { getMonthIndex } from "~/utility/helper";
@@ -11,11 +11,14 @@ export async function getChecks() {
         },
         select: {
             id: true,
+            name : true,
             value: true,
             text: true,
             comment: true,
             status: true,
             createdAt: true,
+            scheduledAt : true,
+            state : true,
             year: true,
             month: true,
             day: true,
@@ -25,11 +28,22 @@ export async function getChecks() {
     });
 }
 
+
 export async function deleteCheck(id: Check['id']) {
     // return await prisma.check.delete({ where: { id } })
     return await prisma.check.update({
         where: { id },
         data: { active: false }
+    })
+}
+
+export async function completeCheck(id: string) {
+    await prisma.check.update({
+        where: { id },
+        data: {
+            state: "CLOSED",
+            comment: "completed"
+        }
     })
 }
 
@@ -46,6 +60,7 @@ export async function getCheckById(id: Check['id']) {
             comment: true,
             status: true,
             createdAt: true,
+            state: true,
             user: { select: { name: true } },
             todo: { select: { id: true } }
         }
@@ -58,11 +73,14 @@ export async function getChecksByTodoId(todoId: Todo['id']) {
         where: { todoId },
         select: {
             id: true,
+            name : true,
             value: true,
             text: true,
             comment: true,
             status: true,
             createdAt: true,
+            scheduledAt : true,
+            state : true,
             year: true,
             month: true,
             day: true,
@@ -71,17 +89,72 @@ export async function getChecksByTodoId(todoId: Todo['id']) {
         }
     })
 }
-//status, value, text, comment, record, todoId, userId
 
-export async function createCheck({ status, value, text, comment, todoId, userId }: Pick<Check, 'status' | 'value' | 'text' | 'comment' | 'todoId' | 'userId'>) {
+
+export async function getChecksByMachineId(machineId: Machine['id']) {
+    return await prisma.check.findMany({
+        where: {
+            machineId,
+            active: true
+        },
+        select: {
+            id: true,
+            name: true,
+            state: true,
+            value: true,
+            text: true,
+            comment: true,
+            status: true,
+            createdAt: true,
+            scheduledAt: true,
+            year: true,
+            month: true,
+            day: true,
+            user: { select: { name: true } },
+            todo: { select: { title: true } }
+        },
+        orderBy: {
+            createdAt: "desc"
+        }
+    })
+}
+
+
+
+export async function createCheck(
+    name: Check['name'],
+    status: Check['status'],
+    comment: Check['comment'],
+    refId: string,
+    userId: Check['userId']) {
+
+    const todo = await prisma.todo.findUnique({ where: { id: refId } });
+    const machine = await prisma.machine.findUnique({ where: { id: refId } });
+
+    if (!todo && !machine)
+        return null;
 
     return await prisma.check.create({
         data: {
+            name,
             status,
-            value,
-            text,
             comment,
-            todoId,
+            state: "CLOSED",
+            todoId: todo?.id ?? null,
+            machineId: machine?.id ?? null,
+            userId
+        }
+    })
+}
+
+export async function scheduleCheck(name: string, date: string, refId: string, userId: string) {
+
+    return await prisma.check.create({
+        data: {
+            name,
+            scheduledAt: new Date(date),
+            state: "OPEN",
+            machineId: refId,
             userId
         }
     })
@@ -141,11 +214,14 @@ export async function getChecksByMonth(month: string) {
         },
         select: {
             id: true,
+            name: true,
+            state: true,
             value: true,
             text: true,
             comment: true,
             status: true,
             createdAt: true,
+            scheduledAt: true,
             year: true,
             month: true,
             day: true,

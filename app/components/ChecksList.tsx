@@ -3,9 +3,9 @@ import { useNavigate } from "@remix-run/react";
 
 import { classNames } from "~/utility/helper";
 
-import { CheckProp } from "./CheckProp";
+import { CheckProp, ChecksProp } from "./CheckProp";
 
-export default function CheckList({ checks }: CheckProp) {
+export default function CheckList({ checks }: ChecksProp) {
     const navigate = useNavigate();
 
     if (checks === undefined)
@@ -38,13 +38,13 @@ export default function CheckList({ checks }: CheckProp) {
                                             </th> : null
                                         }
                                         <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                            Name
+                                        </th>
+                                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                             Status
                                         </th>
                                         <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                            Numeric value
-                                        </th>
-                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                            Text value
+                                            State
                                         </th>
                                         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Created At
@@ -61,14 +61,14 @@ export default function CheckList({ checks }: CheckProp) {
                                     {checks.map((check) => (
                                         <tr key={check.id}
                                             onClick={() => navigate(`/check/${check.id}`)}
-                                            className={classNames(`${check.status === 'SUCCESS' ? 'bg-green-200' : check.status === 'FAIL' ? 'bg-rose-200' : null}`,
+                                            className={classNames(`${check.status === 'SUCCESS' ? 'bg-green-300' : check.status === 'WARNING' ? 'bg-yellow-300' : check.status === 'ERROR' ? 'bg-red-300' : null}`,
                                                 'text-gray-900 hover:text-red-600'
                                             )}
                                         >
-                                            {isTododExist ? <td className="whitespace-nowrap px-3 py-1 text-sm">{check.todo.title}</td> : null}
-                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.status}</td>
-                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.value}</td>
-                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.text}</td>
+                                            {isTododExist ? <td className="whitespace-nowrap px-3 py-1 text-sm">{check?.todo?.title}</td> : null}
+                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.name}</td>
+                                            {days({check})}
+                                            <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.state}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{new Date(check.createdAt).toLocaleString()}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm ">{check.user.name}</td>
                                             <td className="whitespace-nowrap px-3 py-1 text-sm text-ellipsis overflow-hidden">{check.comment}</td>
@@ -81,5 +81,24 @@ export default function CheckList({ checks }: CheckProp) {
                 </div>
             </div>
         </div>
+    )
+}
+
+const getDays = (scheduledDate: string | null): number | undefined => {
+    if (!scheduledDate)
+        return undefined;
+
+    const thiksPerDay = 86_400_000;
+    const today = new Date()
+    const todayTiks = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+    const scheduled = new Date(scheduledDate).getTime();
+    const delta = Math.floor((scheduled - todayTiks) / thiksPerDay);
+    return delta;
+}
+
+function days({check} : CheckProp) {
+    const daysCount = getDays(check?.scheduledAt);
+    return (
+        <td className={`whitespace-nowrap px-3 py-1 text-sm ${daysCount && daysCount < 3 ? 'inline-flex items-center rounded-md bg-red-200 ring-1 ring-inset ring-red-600/20' : null}`}>{check.status ?? daysCount}</td>
     )
 }

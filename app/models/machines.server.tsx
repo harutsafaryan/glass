@@ -6,6 +6,18 @@ export async function getMachines() {
   return await prisma.machine.findMany({
     where: {
       active: true
+    },
+    include: {
+      issues : true,
+  }
+  })
+}
+
+export async function getMachineById(id : Machine['id']) {
+  return await prisma.machine.findUnique({
+    where: {
+      id,
+      active: true
     }
   })
 }

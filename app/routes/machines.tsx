@@ -19,12 +19,12 @@ export default function MachinesPage() {
 
   return (
     <div>
-      <div>
-        <p>Machines count: {machines.length}</p>
-        <hr className="my-4" />
+      <div className="flex">
+        <p className="px-3">Machines count: {machines.length}</p>
+        <Link to={'new'}>New</Link>
       </div>
-      <MachinesList machines={machines}/>
-      <Link to={'new'}>New</Link>
+        <hr className="my-4" />
+      <MachinesList machines={machines} />
       <Outlet />
     </div>
   )
