@@ -158,7 +158,7 @@ function getDays(month: string | null, year: number, {checks}: ChecksProp) {
             date: new Date(year, monthIndex, i),
             isCurrentMonth: i > 0 && i <= daysCount,
             isToday: i === todayDay && monthIndex === todayMonth,
-            checks: checks.filter(e => e.day === i).map(e => ({ id: e.id, name: e.todo.title }))
+            checks: checks.filter(e => e.day === i).map(e => ({ id: e.id, name: e.todo?.title }))
         })
     }
     return dates;
