@@ -1,10 +1,9 @@
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect, type LoaderFunctionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs , json, type LoaderFunctionArgs } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
 import { deleteNotification, getNotificationsById } from "~/models/notifications.server";
-import { requireUser, requireUserId } from "~/session.server";
+import { requireUser } from "~/session.server";
 
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {

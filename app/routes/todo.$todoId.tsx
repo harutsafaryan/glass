@@ -1,7 +1,6 @@
-import { Status, Periodic } from "@prisma/client";
+import { Periodic } from "@prisma/client";
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { useRef } from "react";
 import invariant from "tiny-invariant";
 
 import Accordion from "~/components/Accordion";
@@ -9,16 +8,13 @@ import CheckList from "~/components/ChecksList";
 import {AddNotification, NotificationItem} from "~/components/Notification";
 import {ScheduleItem, AddSchedule} from "~/components/Schedule"
 import TodoInfo from "~/components/TodoInfo";
-import { createCheck, getChecksByTodoId } from "~/models/checks.server";
+import { getChecksByTodoId } from "~/models/checks.server";
 import { createNotification, deleteNotification, getNotificationsByUser } from "~/models/notifications.server";
 import { createSchedule, deleteSchedule, getScheduleByTodoId } from "~/models/schedule.server";
 import { getTodoById, updatePeriodByTodoId } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
 import NewCheckPage from "./checks.new";
-
-const statuses = Object.keys(Status);
-type StatusKeys = keyof typeof Status;
 
 const periods = Object.keys(Periodic);
 type PeriodKeys = keyof typeof Periodic;
