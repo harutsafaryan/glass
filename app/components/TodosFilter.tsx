@@ -1,8 +1,8 @@
-import { Periodic } from "@prisma/client";
+// import { Periodic } from "@prisma/client";
 import { useEffect, useLayoutEffect } from "react";
 // import { useState } from "react";
 
-const periods = Object.keys(Periodic);
+// const periods = Object.keys(Periodic);
 // type PeriodKeys = keyof typeof Periodic;
 
 interface Props {

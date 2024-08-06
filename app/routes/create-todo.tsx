@@ -1,4 +1,4 @@
-import { Periodic } from "@prisma/client";
+// import { Periodic } from "@prisma/client";
 import { ActionFunctionArgs, LoaderFunctionArgs, json, redirect } from "@remix-run/node";
 import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react";
 import { useEffect, useRef } from "react";
@@ -10,8 +10,8 @@ import { requireUserId } from "~/session.server";
 
 
 
-const periods = Object.keys(Periodic);
-type PeriodKeys = keyof typeof Periodic;
+// const periods = Object.keys(Periodic);
+// type PeriodKeys = keyof typeof Periodic;
 
 
 export async function loader({ request }: LoaderFunctionArgs) {

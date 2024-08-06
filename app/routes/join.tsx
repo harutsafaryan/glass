@@ -5,7 +5,7 @@ import type {
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { createUser, getUserByEmail } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
@@ -41,14 +41,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   if (typeof password !== "string" || password.length === 0) {
     return json(
-      { errors: { email: null, name : null, password: "Password is required" } },
+      { errors: { email: null, name: null, password: "Password is required" } },
       { status: 400 },
     );
   }
 
   if (password.length < 8) {
     return json(
-      { errors: { email: null, name : null, password: "Password is too short" } },
+      { errors: { email: null, name: null, password: "Password is too short" } },
       { status: 400 },
     );
   }
@@ -59,7 +59,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       {
         errors: {
           email: "A user already exists with this email",
-          name : null,
+          name: null,
           password: null,
         },
       },
@@ -80,6 +80,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export const meta: MetaFunction = () => [{ title: "Sign Up" }];
 
 export default function Signup() {
+
+  const [key, setKey] = useState('');
+
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? undefined;
   const actionData = useActionData<typeof action>();
@@ -180,8 +183,25 @@ export default function Signup() {
             </div>
           </div>
 
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Key
+            </label>
+            <div className="mt-1">
+              <input onChange={(e) => setKey(e.target.value)}
+                id="key"
+                type="text"
+                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
+              />
+            </div>
+          </div>
+
           <input type="hidden" name="redirectTo" value={redirectTo} />
           <button
+            disabled={key !== getKey()}
             type="submit"
             className="w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400"
           >
@@ -205,4 +225,9 @@ export default function Signup() {
       </div>
     </div>
   );
+}
+
+
+function getKey() {
+  return '123'
 }

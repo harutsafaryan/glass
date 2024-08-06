@@ -2,7 +2,7 @@ import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 
 import MachinesList from "~/components/MachinesList";
-import { getMachines } from "~/models/machines.server";
+import { getMachines } from "~/models/entities.server";
 import { requireUserId } from "~/session.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {

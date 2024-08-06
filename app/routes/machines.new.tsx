@@ -3,7 +3,7 @@ import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
-import { createMachine } from "~/models/machines.server";
+import { createMachine } from "~/models/entities.server";
 import { requireUserId } from "~/session.server";
 
 const departments = Object.keys(Departmnet);
@@ -58,7 +58,7 @@ export async function action({ request }: ActionFunctionArgs) {
             );
     }
 
-    await createMachine({name, year, manufacturer, serialNumber, department, userId});
+    await createMachine(name, year, manufacturer, serialNumber, department, userId);
 
     return redirect('/machines');
 }
