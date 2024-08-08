@@ -9,18 +9,18 @@ export async function action({ request }: ActionFunctionArgs) {
     const userId = await requireUserId(request);
     const formaData = await request.formData();
     const name = formaData.get('name') as string;
-    const refId = formaData.get('refId') as string;
+    const entityId = formaData.get('entityId') as string;
 
-    await createIssue(name, refId, userId);
+    await createIssue(name, entityId, userId);
     return null;
 }
 
 interface prop {
-    refId: string
+    entityId: string
 }
 
 
-export default function NewIssuePage({ refId }: prop) {
+export default function NewIssuePage({ entityId }: prop) {
     const fetcher = useFetcher();
     const formRef = useRef<HTMLFormElement>(null);
     const isAdding = fetcher.state === "submitting";
@@ -32,7 +32,7 @@ export default function NewIssuePage({ refId }: prop) {
 
     return (
         <fetcher.Form method="post" action="/issues/new" ref={formRef}>
-            <input type="hidden" name="refId" value={refId}></input>
+            <input type="hidden" name="entityId" value={entityId}></input>
             <input type="name" name="name"></input>
             <button
                 disabled={isAdding}

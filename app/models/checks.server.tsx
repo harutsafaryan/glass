@@ -1,5 +1,5 @@
 
-import type { Check, Machine, Todo } from "@prisma/client";
+import type { Check, Entity, Machine, Todo } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 import { getMonthIndex } from "~/utility/helper";
@@ -91,10 +91,10 @@ export async function getChecksByTodoId(todoId: Todo['id']) {
 }
 
 
-export async function getChecksByMachineId(machineId: Machine['id']) {
+export async function getChecksByMachineId(entityId: Entity['id']) {
     return await prisma.check.findMany({
         where: {
-            machineId,
+            entityId,
             active: true
         },
         select: {
@@ -111,7 +111,7 @@ export async function getChecksByMachineId(machineId: Machine['id']) {
             month: true,
             day: true,
             user: { select: { name: true } },
-            todo: { select: { title: true } }
+            entity: { select: { name: true } }
         },
         orderBy: {
             createdAt: "desc"
@@ -125,14 +125,8 @@ export async function createCheck(
     name: Check['name'],
     status: Check['status'],
     comment: Check['comment'],
-    refId: string,
+    entityId: Check['entityId'],
     userId: Check['userId']) {
-
-    const todo = await prisma.todo.findUnique({ where: { id: refId } });
-    const machine = await prisma.machine.findUnique({ where: { id: refId } });
-
-    if (!todo && !machine)
-        return null;
 
     return await prisma.check.create({
         data: {
@@ -140,21 +134,20 @@ export async function createCheck(
             status,
             comment,
             state: "CLOSED",
-            todoId: todo?.id ?? null,
-            machineId: machine?.id ?? null,
+            entityId,
             userId
         }
     })
 }
 
-export async function scheduleCheck(name: string, date: string, refId: string, userId: string) {
+export async function scheduleCheck(name: string, date: string, entityId: string, userId: string) {
 
     return await prisma.check.create({
         data: {
             name,
             scheduledAt: new Date(date),
             state: "OPEN",
-            machineId: refId,
+            entityId,
             userId
         }
     })

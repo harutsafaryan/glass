@@ -1,7 +1,7 @@
 import { Status } from "@prisma/client";
-import { ActionFunctionArgs } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import { useRef, useState } from "react";
+import { ActionFunctionArgs, json } from "@remix-run/node";
+import { useActionData, useFetcher } from "@remix-run/react";
+import { useEffect, useRef, useState } from "react";
 
 import { createCheck, scheduleCheck } from "~/models/checks.server";
 import { requireUserId } from "~/session.server";
@@ -16,42 +16,63 @@ export async function action({ request }: ActionFunctionArgs) {
     const name = formData.get('name') as string;
     const commentValue = formData.get('comment') as string;
     const comment = commentValue !== '' ? commentValue : null;
-    const refId = formData.get('refId') as string;
+    const entityId = formData.get('entityId') as string;
     const _action = formData.get('_action');
+
 
     if (_action === 'create_check') {
         const status = formData.get('status') as StatusKeys;
-        await createCheck(name, status, comment, refId, userId);
+        await createCheck(name, status, comment, entityId, userId);
     }
 
     if (_action === 'schedule_check') {
         const date = formData.get('date') as string;
-        await scheduleCheck(name, date, refId, userId)
+
+        if (getDateErrors(date))
+            return json(
+                { errors: { date: getDateErrors(date) } }
+            );
+
+            return json(
+                { errors: { date: getDateErrors(date) } }
+            );
+
+            console.log(11)
+        await scheduleCheck(name, date, entityId, userId)
     }
 
     return null;
 }
 
 interface prop {
-    refId: string
+    entityId: string
     scheduled: boolean
 }
 
-export default function NewCheckPage({ refId, scheduled }: prop) {
+export default function NewCheckPage({ entityId, scheduled }: prop) {
     const [activeStatus, setactiveStatus] = useState('SUCCESS');
-    const fetcher = useFetcher()
+    const actionData = useActionData<typeof action>();
+
+    console.log('actionData: ', actionData)
+    const fetcher = useFetcher();
+    const formRef = useRef<HTMLFormElement>(null);
+    const isSaving = fetcher.state === "submitting";
 
     const nameRef = useRef<HTMLInputElement>(null);
     const commentRef = useRef<HTMLTextAreaElement>(null);
     const dateRef = useRef<HTMLInputElement>(null);
 
+    useEffect(() => {
+        if (!isSaving)
+            formRef.current?.reset();
+    }, [isSaving])
 
     return (
         <div>
-            <fetcher.Form method="post" action="/checks/new">
+            <fetcher.Form method="post" action="/checks/new" ref={formRef}>
 
                 <p>{scheduled ? 'schedule new check' : 'add new check'}</p>
-                <input type="hidden" name="refId" value={refId}></input>
+                <input type="hidden" name="entityId" value={entityId}></input>
                 <input type="hidden" name="_action" value={scheduled ? "schedule_check" : "create_check"}></input>
 
                 <div>
@@ -97,13 +118,18 @@ export default function NewCheckPage({ refId, scheduled }: prop) {
                 {scheduled
                     ? <div>
                         <label htmlFor="text" className="block text-sm font-medium leading-6 text-gray-900">
-                            <span>Schedule date </span>
+                            <span>Schedule date44 </span>
                             <input
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-96 sm:text-sm sm:leading-6"
                                 ref={dateRef}
                                 name="date"
                                 type="date"
                             ></input>
+                            {actionData?.errors?.date ? (
+                                <div className="pt-1 text-red-700">
+                                    {actionData.errors.date}
+                                </div>
+                            ) : null}
                         </label>
                     </div>
                     : null
@@ -123,9 +149,10 @@ export default function NewCheckPage({ refId, scheduled }: prop) {
                     <button
                         name="_action"
                         value="new_check"
+                        disabled={isSaving}
                         className="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  hover:bg-gray-50 active:bg-slate-500"
                     >
-                        Save
+                        {isSaving ? 'Saving...' : "Save"}
                     </button>
                     <button
                         className="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -136,4 +163,17 @@ export default function NewCheckPage({ refId, scheduled }: prop) {
             </fetcher.Form>
         </div>
     )
+}
+
+function getDateErrors(date: string): string | null {
+    if (date === '')
+        return 'Date is missing';
+
+    const today = new Date();
+    const schedule = new Date(date);
+
+    if (today > schedule)
+        return 'Please set a correct date';
+
+    return null
 }

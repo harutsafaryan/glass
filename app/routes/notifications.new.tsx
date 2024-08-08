@@ -10,20 +10,20 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const userId = await requireUserId(request);
     const formData = await request.formData();
 
-    const todoId =formData.get('todoId') as string;
+    const entityId = formData.get('entityId') as string;
     const name = formData.get('notification_name') as string;
 
     await new Promise(resolve => setTimeout(resolve, 1000))
-    await createNotification(userId, todoId, name)
+    await createNotification(userId, entityId, name)
 
-  return null;
+    return null;
 };
 
 interface prop {
-    refId: string
+    entityId: string
 }
 
-export default function NewNotificationPage({refId} : prop) {
+export default function NewNotificationPage({ entityId }: prop) {
     const name = useRef<HTMLInputElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
     const fetcher = useFetcher();
@@ -38,7 +38,7 @@ export default function NewNotificationPage({refId} : prop) {
 
     return (
         <fetcher.Form method="post" ref={formRef} action="/notifications/new">
-            <input type="hidden" name="refId" value={refId}></input>
+            <input type="hidden" name="entityId" value={entityId}></input>
             <input type="text" name="notification_name" ref={name}></input>
             <button
                 disabled={isAdding}

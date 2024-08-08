@@ -1,4 +1,4 @@
-import { Departmnet } from "@prisma/client";
+import { Role,  } from '@prisma/client'
 import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
@@ -6,8 +6,8 @@ import { useEffect, useRef } from "react";
 import { createMachine } from "~/models/entities.server";
 import { requireUserId } from "~/session.server";
 
-const departments = Object.keys(Departmnet);
-type DepartmnetKeys = keyof typeof Departmnet;
+const departments = Object.keys(Role);
+type DepartmnetKeys = keyof typeof Role;
 
 interface Errors {
     name: string | null,

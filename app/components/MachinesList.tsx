@@ -1,18 +1,19 @@
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { Prisma } from '@prisma/client';
 import { useNavigate } from "@remix-run/react";
 
 interface MachineProp {
     machines: {
         id: string,
         name: string,
-        year: number | null,
-        manufacturer: string | null,
-        serialNumber: string | null
-        department: string | null
+        profile : {
+            data : Prisma.JsonObject
+        },
         issues: {
             state : string
             active : boolean
         }[]
+
     }[]
 }
 
@@ -53,10 +54,10 @@ export default function MachinesList({ machines }: MachineProp) {
                                 {machines.map(machine => (
                                     <tr key={machine.id} className=" hover:text-red-600" onClick={() => navigate(`/machines/${machine.id}`)}>
                                         <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.name}</td>
-                                        <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.year}</td>
-                                        <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.manufacturer}</td>
-                                        <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.serialNumber}</td>
-                                        <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.department}</td>
+                                        <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.profile.data.year?.toString()}</td>
+                                        <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.profile.data.manufacturer?.toString()}</td>
+                                        <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.profile.data.serialNumber?.toString()}</td>
+                                        <td className="whitespace-nowrap px-3 py-1 text-sm">{machine.profile.data.department?.toString()}</td>
                                         <td className="whitespace-nowrap px-3 py-1 text-sm">
                                             {machine.issues.filter(i => i.state === 'OPEN').length > 0
                                                 ?  <ExclamationTriangleIcon className="size-6 text-red-600" />

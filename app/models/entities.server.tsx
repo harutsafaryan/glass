@@ -1,4 +1,4 @@
-import { Departmnet, Type } from "@prisma/client";
+import { Department, Prisma, Type, Entity } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
@@ -7,6 +7,10 @@ export async function getMachines() {
         where: {
             type: 'MACHINE',
             active: true
+        },
+        include : {
+            profile : true,
+            issues : true
         }
     })
 }
@@ -17,9 +21,16 @@ export async function createMachine(
     year: number,
     manufacturer: string,
     serialNumber: string,
-    department: Departmnet,
+    department: Department,
     userId: string
 ) {
+    const json = {
+        year,
+        manufacturer,
+        serialNumber,
+        department
+    } as Prisma.JsonObject
+
     return prisma.entity.create({
         data : {
             name,
@@ -27,12 +38,18 @@ export async function createMachine(
             type : Type.MACHINE,
             profile : {
                 create : {
-                    year,
-                    manufacturer,
-                    serialNumber,
-                    department,
+                    data : json
                 }
             }
         }
     })
 }
+
+export async function getMachineById(id : Entity['id']) {
+    return await prisma.entity.findUnique({
+      where: {
+        id,
+        active: true
+      }
+    })
+  }

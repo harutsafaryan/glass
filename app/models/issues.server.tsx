@@ -29,19 +29,12 @@ export async function fixgIssue(id: Issue['id']) {
     });
 }
 
-export async function createIssue(name: string, refId: string, userId: string) {
-    const machine = await prisma.machine.findUnique({
-        where: {
-            id: refId
-        },
-    })
-
-    if (machine)
+export async function createIssue(name: string, entityId: string, userId: string) {
         return await prisma.issue.create({
             data: {
                 name,
                 userId,
-                machineId: machine.id,
+                entityId
             }
         })
 }
