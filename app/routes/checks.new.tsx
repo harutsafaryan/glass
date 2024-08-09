@@ -1,6 +1,6 @@
 import { Status } from "@prisma/client";
 import { ActionFunctionArgs, json } from "@remix-run/node";
-import { useActionData, useFetcher } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 
 import { createCheck, scheduleCheck } from "~/models/checks.server";
@@ -19,25 +19,34 @@ export async function action({ request }: ActionFunctionArgs) {
     const entityId = formData.get('entityId') as string;
     const _action = formData.get('_action');
 
+    const errors: {
+        date?: string | null
+        name?: string | null
+    } = {};
+
+    if (name === '')
+        errors.name = "Name is required";
 
     if (_action === 'create_check') {
         const status = formData.get('status') as StatusKeys;
-        await createCheck(name, status, comment, entityId, userId);
+
+        if (Object.keys(errors).length > 0) {
+            return json({ errors });
+        }
+        
+            await createCheck(name, status, comment, entityId, userId);
     }
 
     if (_action === 'schedule_check') {
         const date = formData.get('date') as string;
 
         if (getDateErrors(date))
-            return json(
-                { errors: { date: getDateErrors(date) } }
-            );
+            errors.date = getDateErrors(date);
 
-            return json(
-                { errors: { date: getDateErrors(date) } }
-            );
+        if (Object.keys(errors).length > 0) {
+            return json({ errors });
+        }
 
-            console.log(11)
         await scheduleCheck(name, date, entityId, userId)
     }
 
@@ -51,10 +60,10 @@ interface prop {
 
 export default function NewCheckPage({ entityId, scheduled }: prop) {
     const [activeStatus, setactiveStatus] = useState('SUCCESS');
-    const actionData = useActionData<typeof action>();
 
-    console.log('actionData: ', actionData)
     const fetcher = useFetcher();
+    const actionData = fetcher.data;
+
     const formRef = useRef<HTMLFormElement>(null);
     const isSaving = fetcher.state === "submitting";
 
@@ -63,9 +72,9 @@ export default function NewCheckPage({ entityId, scheduled }: prop) {
     const dateRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        if (!isSaving)
+        if (!isSaving && !actionData)
             formRef.current?.reset();
-    }, [isSaving])
+    }, [isSaving, actionData])
 
     return (
         <div>
@@ -81,10 +90,14 @@ export default function NewCheckPage({ entityId, scheduled }: prop) {
                         <input
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-96 sm:text-sm sm:leading-6"
                             ref={nameRef}
-                            required
                             name="name"
                             type="text"
                         ></input>
+                        {actionData?.errors?.name ? (
+                            <div className="pt-1 text-red-700">
+                                {actionData.errors?.name}
+                            </div>
+                        ) : null}
                     </label>
                 </div>
 
@@ -113,12 +126,10 @@ export default function NewCheckPage({ entityId, scheduled }: prop) {
                     : null
                 }
 
-
-
                 {scheduled
                     ? <div>
                         <label htmlFor="text" className="block text-sm font-medium leading-6 text-gray-900">
-                            <span>Schedule date44 </span>
+                            <span>Schedule date </span>
                             <input
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:w-96 sm:text-sm sm:leading-6"
                                 ref={dateRef}
@@ -127,7 +138,7 @@ export default function NewCheckPage({ entityId, scheduled }: prop) {
                             ></input>
                             {actionData?.errors?.date ? (
                                 <div className="pt-1 text-red-700">
-                                    {actionData.errors.date}
+                                    {actionData.errors?.date}
                                 </div>
                             ) : null}
                         </label>
@@ -173,7 +184,7 @@ function getDateErrors(date: string): string | null {
     const schedule = new Date(date);
 
     if (today > schedule)
-        return 'Please set a correct date';
+        return 'Please input date greater than current date';
 
     return null
 }

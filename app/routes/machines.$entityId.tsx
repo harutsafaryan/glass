@@ -7,18 +7,15 @@ import CheckList from "~/components/ChecksList";
 import { IssueItem } from "~/components/Issue";
 import { NotificationItem } from "~/components/Notification";
 import NotificationSlider from "~/components/NotificationSlider";
-import { ScheduleItem } from "~/components/Schedule";
 import { getChecksByMachineId } from "~/models/checks.server";
 import { getMachineById } from "~/models/entities.server";
 import { getIssues } from "~/models/issues.server";
 import { getNotifications } from "~/models/notifications.server";
-import { getSchedules } from "~/models/schedule.server";
 import { requireUser } from "~/session.server";
 
 import NewCheckPage from "./checks.new";
 import NewIssuePage from "./issues.new";
 import NewNotificationPage from "./notifications.new";
-import NewSchedulePage from "./schedules.new";
 
 
 
@@ -29,11 +26,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
     const machine = await getMachineById(entityId);
     const checks = await getChecksByMachineId(entityId);
-    const schedules = (await getSchedules()).filter(s => s.machineId === entityId);
     const notifications = (await getNotifications()).filter(n => n.entityId === entityId);
     const issues = (await getIssues()).filter(n => n.entityId === entityId);
 
-    return json({ machine, checks, schedules, notifications, issues });
+    return json({ machine, checks, notifications, issues });
 }
 export async function action() {
     console.log('action');
@@ -42,7 +38,7 @@ export async function action() {
 
 export default function MachinePage() {
 
-    const { machine, checks, schedules, notifications, issues } = useLoaderData<typeof loader>();
+    const { machine, checks, notifications, issues } = useLoaderData<typeof loader>();
 
     const today = new Date();
     const closedCheks = checks.filter(c => c.state === 'CLOSED').length;
@@ -70,13 +66,6 @@ export default function MachinePage() {
 
             <Accordion title={`cheks: ${closedCheks}, upcoming cheks: ${openCheks} overdue checks: ${overdueChecks}`}>
                 <CheckList checks={checks} />
-            </Accordion>
-
-            <Accordion title="Add schedule">
-                <NewSchedulePage entityId={machine.id}></NewSchedulePage>
-                <ul className="space-y-1">
-                    {schedules.map(schedule => <ScheduleItem schedule={schedule} key={schedule.id} />)}
-                </ul>
             </Accordion>
 
             <Accordion title="Add Notification">

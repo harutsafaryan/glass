@@ -6,11 +6,9 @@ import invariant from "tiny-invariant";
 import Accordion from "~/components/Accordion";
 import CheckList from "~/components/ChecksList";
 import {AddNotification, NotificationItem} from "~/components/Notification";
-import {ScheduleItem, AddSchedule} from "~/components/Schedule"
 import TodoInfo from "~/components/TodoInfo";
 import { getChecksByTodoId } from "~/models/checks.server";
 import { createNotification, deleteNotification, getNotificationsByUser } from "~/models/notifications.server";
-import { createSchedule, deleteSchedule, getScheduleByTodoId } from "~/models/schedule.server";
 import { getTodoById, updatePeriodByTodoId } from "~/models/todo.server";
 import { requireUserId } from "~/session.server";
 
@@ -25,11 +23,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const todoId = params.todoId;
     const todo = await getTodoById(todoId);
     const checks = await getChecksByTodoId(todoId);
-    const schedules = await getScheduleByTodoId(todoId);
     const notifications = (await getNotificationsByUser(userId)).filter(n => n.todoId === todoId);
 
 
-    return json({ todo, checks, schedules, notifications });
+    return json({ todo, checks, notifications });
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -37,21 +34,6 @@ export async function action({ request }: ActionFunctionArgs) {
     const userId = await requireUserId(request);
 
     const { _action, ...values } = Object.fromEntries(formData);
-
-    if (_action === "add_schedule") {
-        const date = values['date'] as string;
-        const d = new Date(date);
-        const refId = values['refId'] as string;
-        try {
-        await new Promise(resolve => setTimeout(resolve, 1000))
-
-            await createSchedule(refId, d, 'test', userId);
-        }
-        catch (error) {
-            console.log("error: ", error)
-        }
-        return null;
-    }
 
     if (_action === "set_period") {
         const period = values['period'] as PeriodKeys;
@@ -75,19 +57,12 @@ export async function action({ request }: ActionFunctionArgs) {
         await deleteNotification(notificationId);
     }
 
-    if (_action === "delete_schedule") {
-        const scheduleId = values['scheduleId'] as string;
-
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        await deleteSchedule(scheduleId);
-    }
-
     return null;
 }
 
 export default function TodoInfoPage() {
     const fetcher = useFetcher()
-    const { todo, checks, schedules, notifications } = useLoaderData<typeof loader>();
+    const { todo, checks, notifications } = useLoaderData<typeof loader>();
 
     if (!todo)
         return null;
@@ -126,14 +101,7 @@ export default function TodoInfoPage() {
                 </fetcher.Form>
             </Accordion>
 
-            <Accordion title={schedules.length === 0 ? 'No any schedule' : `There are ${schedules.length} actual schedules, next one one ${new Date(schedules[0].date).toLocaleDateString()}`}>
-                <AddSchedule todoId={todo.id} />
-                <ul className="space-y-1">
-                    {
-                        schedules.map((schedule) => <ScheduleItem schedule={schedule} key={schedule.id} />)
-                    }
-                </ul>
-            </Accordion>
+
             <Accordion title={notifications.length === 0 ? 'No any notification' : `There are ${notifications.length} actual notification${notifications.length === 1 ? '' : 's'}`}>
                 <AddNotification todoId={todo.id} />
                 {

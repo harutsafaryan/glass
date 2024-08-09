@@ -128,7 +128,7 @@ export async function createCheck(
     entityId: Check['entityId'],
     userId: Check['userId']) {
 
-    return await prisma.check.create({
+    const check =  await prisma.check.create({
         data: {
             name,
             status,
@@ -138,6 +138,10 @@ export async function createCheck(
             userId
         }
     })
+
+    console.log('created check ID: ', check.id);
+
+    return check;
 }
 
 export async function scheduleCheck(name: string, date: string, entityId: string, userId: string) {
